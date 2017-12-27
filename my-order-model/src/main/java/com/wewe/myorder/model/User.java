@@ -1,9 +1,7 @@
 package com.wewe.myorder.model;
 
 import java.io.Serializable;
-
-import javax.persistence.Column;
-import javax.persistence.Id;
+import java.util.Date;
 
 public class User implements Serializable{
 	/**
@@ -11,38 +9,104 @@ public class User implements Serializable{
 	 */
 	private static final long serialVersionUID = 1L;
 	
-	@Id
-	@Column(name="_ID")
 	private String id;
 	
 	/**
 	 * 姓名
 	 */
-	@Column(name="USERNAME")
 	private String username;
 	
 	/**
 	 * 手机号
 	 */
-	@Column(name="CELLPHONE")
 	private String cellphone;
 	
 	/**
 	 * 地址
 	 */
-	@Column(name="ADDRESS")
 	private String address;
 	
 	/**
 	 * 微信号
 	 */
-	@Column(name="WECHAT")
 	private String wechat;
 	
 	/**
 	 * 等级
 	 */
-	@Column(name="LEVEL")
 	private int level;
 
+	/**
+	 * 创建时间
+	 */
+	private Date createTime;
+
+	/**
+	 * 更新时间
+	 */
+	private Date updateTime;
+
+	public String getId() {
+		return id;
+	}
+
+	public void setId(String id) {
+		this.id = id;
+	}
+
+	public String getUsername() {
+		return username;
+	}
+
+	public void setUsername(String username) {
+		this.username = username;
+	}
+
+	public String getCellphone() {
+		return cellphone;
+	}
+
+	public void setCellphone(String cellphone) {
+		this.cellphone = cellphone;
+	}
+
+	public String getAddress() {
+		return address;
+	}
+
+	public void setAddress(String address) {
+		this.address = address;
+	}
+
+	public String getWechat() {
+		return wechat;
+	}
+
+	public void setWechat(String wechat) {
+		this.wechat = wechat;
+	}
+
+	public int getLevel() {
+		return level;
+	}
+
+	public void setLevel(int level) {
+		this.level = level;
+	}
+
+	public Date getCreateTime() {
+		return createTime;
+	}
+
+	public void setCreateTime(Date createTime) {
+		this.createTime = createTime;
+	}
+
+	public Date getUpdateTime() {
+		return updateTime;
+	}
+
+	public void setUpdateTime(Date updateTime) {
+		this.updateTime = updateTime;
+	}
 }

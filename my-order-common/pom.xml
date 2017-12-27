@@ -7,11 +7,10 @@
     <parent>
         <groupId>com.wewe.myorder</groupId>
         <artifactId>my-order</artifactId>
-        <version>1.0</version>
+        <version>1.0.0</version>
     </parent>
 
     <artifactId>my-order-common</artifactId>
-    <version>1.0</version>
     <name>my-order-common</name>
     <url>http://maven.apache.org</url>
 
@@ -21,10 +20,28 @@
 
     <dependencies>
         <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
-            <version>3.8.1</version>
-            <scope>test</scope>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-lang3</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.google.guava</groupId>
+            <artifactId>guava</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-databind</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>javax.servlet</groupId>
+            <artifactId>servlet-api</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-beans</artifactId>
         </dependency>
     </dependencies>
     

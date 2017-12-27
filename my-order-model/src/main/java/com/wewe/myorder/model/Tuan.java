@@ -1,9 +1,7 @@
 package com.wewe.myorder.model;
 
 import java.io.Serializable;
-
-import javax.persistence.Column;
-import javax.persistence.Id;
+import java.util.Date;
 
 /**
  * @author WEWE
@@ -16,32 +14,91 @@ public class Tuan implements Serializable{
 	 */
 	private static final long serialVersionUID = 1L;
 	
-	@Id
-	@Column(name="_ID")
 	private String id;
 	
 	/**
 	 * 商品名称
 	 */
-	@Column(name="PRODUCT")
 	private String product;
 	
 	/**
 	 * 商品品牌
 	 */
-	@Column(name="BRAND")
 	private String brand;
 	
 	/**
 	 * 商品备注
 	 */
-	@Column(name="COMMENT")
 	private String comment;
 	
 	/**
 	 * 单价
 	 */
-	@Column(name="PRICE")
 	private long price;
 
+	/**
+	 * 创建时间
+	 */
+	private Date createTime;
+
+	/**
+	 * 更新时间
+	 */
+	private Date updateTime;
+
+	public String getId() {
+		return id;
+	}
+
+	public void setId(String id) {
+		this.id = id;
+	}
+
+	public String getProduct() {
+		return product;
+	}
+
+	public void setProduct(String product) {
+		this.product = product;
+	}
+
+	public String getBrand() {
+		return brand;
+	}
+
+	public void setBrand(String brand) {
+		this.brand = brand;
+	}
+
+	public String getComment() {
+		return comment;
+	}
+
+	public void setComment(String comment) {
+		this.comment = comment;
+	}
+
+	public long getPrice() {
+		return price;
+	}
+
+	public void setPrice(long price) {
+		this.price = price;
+	}
+
+	public Date getCreateTime() {
+		return createTime;
+	}
+
+	public void setCreateTime(Date createTime) {
+		this.createTime = createTime;
+	}
+
+	public Date getUpdateTime() {
+		return updateTime;
+	}
+
+	public void setUpdateTime(Date updateTime) {
+		this.updateTime = updateTime;
+	}
 }

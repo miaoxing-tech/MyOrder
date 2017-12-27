@@ -7,11 +7,10 @@
     <parent>
         <groupId>com.wewe.myorder</groupId>
         <artifactId>my-order</artifactId>
-        <version>1.0</version>
+        <version>1.0.0</version>
     </parent>
 
     <artifactId>my-order-service</artifactId>
-    <version>1.0</version>
     <name>my-order-service</name>
     <url>http://maven.apache.org</url>
 
@@ -21,10 +20,8 @@
 
     <dependencies>
         <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
-            <version>3.8.1</version>
-            <scope>test</scope>
+            <groupId>com.wewe.myorder</groupId>
+            <artifactId>my-order-dao</artifactId>
         </dependency>
     </dependencies>
 
