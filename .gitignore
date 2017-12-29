@@ -20,3 +20,10 @@ hs_err_pid*
 
 # config files
 user_*.properties
+
+# eclipse
+/.settings/*
+*/.settings
+*/.project
+*/.classpath
+.project

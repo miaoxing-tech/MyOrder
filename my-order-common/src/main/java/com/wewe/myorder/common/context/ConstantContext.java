@@ -20,4 +20,11 @@ public class ConstantContext {
     public static final String USERNAME_COOKIE = "_v";
     public static final String USERNAME_TIME_COOKIE = "_D";
     public static final String PATH_COOKIE = "/";
+    
+    public static final String ENCODING = "utf-8";    
+    public static final String TIMEZONE = "GMT+08";
+    public static final String DATE_PATTERN = "yyyy-MM-dd";    
+    public static final String DATETIME_PATTERN = "yyyy-MM-dd HH:mm:ss";
+    
+    public static final String SUCCESS_RESULT = "操作成功！";
 }
