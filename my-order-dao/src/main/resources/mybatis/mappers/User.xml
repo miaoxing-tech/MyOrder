@@ -2,6 +2,28 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.wewe.myorder.dao.UserDao">
 
+<resultMap id="UserMap" type="com.wewe.myorder.model.User">
+        <result column="ID" property="id"/>
+        <result column="USERNAME" property="username"/>
+        <result column="CELLPHONE" property="cellphone"/>
+        <result column="ADDRESS" property="address"/>
+        <result column="WECHAT" property="wechat"/>
+        <result column="CREATETIME" property="createTime"/>
+        <result column="LEVEL" property="level"/>
+        <result column="UPDATETIME" property="updateTime"/>
+    </resultMap>
+
+    <sql id="UserField">
+        `ID`,
+        `USERNAME`,
+        `CELLPHONE`,
+        `ADDRESS`,
+        `WECHAT`,
+        `CREATETIME`,
+        `LEVEL`,
+        `UPDATETIME`
+    </sql>
+
 	<insert id="insert" parameterType="com.wewe.myorder.model.User">
 		INSERT INTO `t_user`
 		(
@@ -9,8 +31,84 @@
 		)
 		VALUES
 		(
-		#{id},#{username},#{cellphone},#{address},#{wechat},#{createtime}
+		#{entity.id},#{entity.username},#{entity.cellphone},#{entity.address},#{entity.wechat},#{entity.createTime}
 		)
 	</insert>
+	
+	<update id="update">
+        UPDATE `t_user`
+        SET
+        <if test="entity.username != null">
+            `USERNAME` = #{entity.username},
+        </if>
+        <if test="entity.cellphone != null">
+            `CELLPHONE` = #{entity.cellphone},
+        </if>
+        <if test="entity.address != null">
+            `ADDRESS` = #{entity.address},
+        </if>
+        <if test="entity.wechat != null">
+            `WECHAT` = #{entity.wechat},
+        </if>
+        `UPDATETIME` = #{entity.updateTime}
+        WHERE
+        `ID` = #{entity.id}
+    </update>
+	
+	<select id="queryByParams" parameterType="com.wewe.myorder.request.entity.UserQueryParams" resultMap="UserMap">
+        SELECT
+        <include refid="UserField"/>
+        FROM `t_user`
+        <where>
+            <if test="params.username != null and params.username != ''">
+                AND `USERNAME` LIKE CONCAT("%", #{params.username}, "%")
+            </if>
+            <if test="params.cellphone != null and params.cellphone != ''">
+                AND `CELLPHONE` LIKE CONCAT("%", #{params.cellphone}, "%")
+            </if>
+            <if test="params.address != null and params.address != ''">
+                AND `ADDRESS` LIKE CONCAT("%", #{params.address}, "%")
+            </if>
+            <if test="params.wechat != null and params.wechat != ''">
+                AND `WECHAT` LIKE CONCAT("%", #{params.wechat}, "%")
+            </if>
+            <if test="params.level != null">
+                AND `LEVEL` = #{params.level}
+            </if>
+        </where>
+        order by id desc limit #{page.offset},#{page.limit}
+    </select>
+    
+    <select id="countByParams" parameterType="com.wewe.myorder.request.entity.UserQueryParams" resultType="java.lang.Integer">
+        SELECT
+        count(*)
+        FROM `t_user`
+        <where>
+            <if test="params.username != null and params.username != ''">
+                AND `USERNAME` LIKE CONCAT("%", #{params.username}, "%")
+            </if>
+            <if test="params.cellphone != null and params.cellphone != ''">
+                AND `CELLPHONE` LIKE CONCAT("%", #{params.cellphone}, "%")
+            </if>
+            <if test="params.address != null and params.address != ''">
+                AND `ADDRESS` LIKE CONCAT("%", #{params.address}, "%")
+            </if>
+            <if test="params.wechat != null and params.wechat != ''">
+                AND `WECHAT` LIKE CONCAT("%", #{params.wechat}, "%")
+            </if>
+            <if test="params.level != null">
+                AND `LEVEL` = #{params.level}
+            </if>
+        </where>
+    </select>
+    
+    <select id="queryByID" parameterType="String" resultMap="UserMap">
+        SELECT
+        <include refid="UserField"/>
+        FROM `t_user`
+        <where>
+        	`ID` = #{id}
+        </where>
+    </select>
 
 </mapper>

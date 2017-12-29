@@ -3,7 +3,7 @@ package com.wewe.myorder.service;
 import org.springframework.stereotype.Service;
 
 import com.wewe.myorder.model.Trip;
-import com.wewe.myorder.request.entity.TripSearchParams;
+import com.wewe.myorder.request.entity.TripQueryParams;
 
 @Service
 public class TripService {
@@ -23,7 +23,7 @@ public class TripService {
     
   }
 
-  public void getList(TripSearchParams params, int pageSize, int pageNumber) {
+  public void getList(TripQueryParams params, int pageSize, int pageNumber) {
     // TODO Auto-generated method stub
     
   }

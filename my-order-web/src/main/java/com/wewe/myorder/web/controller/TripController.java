@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.wewe.myorder.common.result.ApiResult;
 import com.wewe.myorder.model.Trip;
-import com.wewe.myorder.request.entity.TripSearchParams;
+import com.wewe.myorder.request.entity.TripQueryParams;
 import com.wewe.myorder.service.TripService;
 
 @Controller
@@ -69,7 +69,7 @@ public class TripController {
 
   @RequestMapping(value = "/getList", method = RequestMethod.GET)
   @ResponseBody
-  public ApiResult getList(@ModelAttribute TripSearchParams params,
+  public ApiResult getList(@ModelAttribute TripQueryParams params,
       @RequestParam(value = "pageSize", required = false, defaultValue="20") int pageSize,
       @RequestParam(value = "pageNumber", required = false, defaultValue="0") int pageNumber,
       HttpServletRequest request) {

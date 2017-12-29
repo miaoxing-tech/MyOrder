@@ -1,6 +1,6 @@
 package com.wewe.myorder.request.entity;
 
-public class OrderSearchParams {
+public class OrderQueryParams {
   
   /**
    * 用户ID

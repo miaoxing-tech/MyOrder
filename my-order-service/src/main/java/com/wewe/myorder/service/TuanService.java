@@ -3,7 +3,7 @@ package com.wewe.myorder.service;
 import org.springframework.stereotype.Service;
 
 import com.wewe.myorder.model.Tuan;
-import com.wewe.myorder.request.entity.TuanSearchParams;
+import com.wewe.myorder.request.entity.TuanQueryParams;
 
 @Service
 public class TuanService {
@@ -23,7 +23,7 @@ public class TuanService {
     
   }
 
-  public void getList(TuanSearchParams params, int pageSize, int pageNumber) {
+  public void getList(TuanQueryParams params, int pageSize, int pageNumber) {
     // TODO Auto-generated method stub
     
   }

@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.wewe.myorder.common.result.ApiResult;
 import com.wewe.myorder.model.Seckill;
-import com.wewe.myorder.request.entity.SeckillSearchParams;
+import com.wewe.myorder.request.entity.SeckillQueryParams;
 import com.wewe.myorder.service.SeckillService;
 
 @Controller
@@ -71,7 +71,7 @@ public class SeckillController {
   
   @RequestMapping(value = "/getList", method = RequestMethod.GET)
   @ResponseBody
-  public ApiResult getList(@ModelAttribute SeckillSearchParams params,
+  public ApiResult getList(@ModelAttribute SeckillQueryParams params,
       @RequestParam(value = "pageSize", required = false, defaultValue="20") int pageSize,
       @RequestParam(value = "pageNumber", required = false, defaultValue="0") int pageNumber,
       HttpServletRequest request) {

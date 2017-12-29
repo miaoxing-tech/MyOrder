@@ -3,7 +3,7 @@ package com.wewe.myorder.service;
 import org.springframework.stereotype.Service;
 
 import com.wewe.myorder.model.Order;
-import com.wewe.myorder.request.entity.OrderSearchParams;
+import com.wewe.myorder.request.entity.OrderQueryParams;
 
 @Service
 public class OrderService {
@@ -23,7 +23,7 @@ public class OrderService {
     
   }
 
-  public void getList(OrderSearchParams params, int pageSize, int pageNumber) {
+  public void getList(OrderQueryParams params, int pageSize, int pageNumber) {
     // TODO Auto-generated method stub
     
   }

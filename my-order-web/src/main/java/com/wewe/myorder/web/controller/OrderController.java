@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.wewe.myorder.common.result.ApiResult;
 import com.wewe.myorder.model.Order;
-import com.wewe.myorder.request.entity.OrderSearchParams;
+import com.wewe.myorder.request.entity.OrderQueryParams;
 import com.wewe.myorder.service.OrderService;
 
 @Controller
@@ -69,7 +69,7 @@ public class OrderController {
   
   @RequestMapping(value = "/getList", method = RequestMethod.GET)
   @ResponseBody
-  public ApiResult getList(@ModelAttribute OrderSearchParams params,
+  public ApiResult getList(@ModelAttribute OrderQueryParams params,
       @RequestParam(value = "pageSize", required = false, defaultValue="20") int pageSize,
       @RequestParam(value = "pageNumber", required = false, defaultValue="0") int pageNumber,
       HttpServletRequest request) {

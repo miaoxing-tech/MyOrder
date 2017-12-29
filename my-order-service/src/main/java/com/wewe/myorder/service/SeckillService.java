@@ -3,7 +3,7 @@ package com.wewe.myorder.service;
 import org.springframework.stereotype.Service;
 
 import com.wewe.myorder.model.Seckill;
-import com.wewe.myorder.request.entity.SeckillSearchParams;
+import com.wewe.myorder.request.entity.SeckillQueryParams;
 
 @Service
 public class SeckillService {
@@ -23,7 +23,7 @@ public class SeckillService {
     
   }
 
-  public void getList(SeckillSearchParams params, int pageSize, int pageNumber) {
+  public void getList(SeckillQueryParams params, int pageSize, int pageNumber) {
     // TODO Auto-generated method stub
     
   }

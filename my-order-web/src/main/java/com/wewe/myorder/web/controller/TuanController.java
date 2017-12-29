@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.wewe.myorder.common.result.ApiResult;
 import com.wewe.myorder.model.Tuan;
-import com.wewe.myorder.request.entity.TuanSearchParams;
+import com.wewe.myorder.request.entity.TuanQueryParams;
 import com.wewe.myorder.service.TuanService;
 
 @Controller
@@ -69,7 +69,7 @@ public class TuanController {
   
   @RequestMapping(value = "/getList", method = RequestMethod.GET)
   @ResponseBody
-  public ApiResult getList(@ModelAttribute TuanSearchParams params,
+  public ApiResult getList(@ModelAttribute TuanQueryParams params,
       @RequestParam(value = "pageSize", required = false, defaultValue="20") int pageSize,
       @RequestParam(value = "pageNumber", required = false, defaultValue="0") int pageNumber,
       HttpServletRequest request) {
