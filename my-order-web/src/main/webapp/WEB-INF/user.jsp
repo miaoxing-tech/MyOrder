@@ -90,22 +90,22 @@
 			},
 			"ordering" : false,//全局禁用排序
 			"ajax" : { //ajax方式向后台发送请求
-				"type" : "POST",
-				"url" : "user/getList",
+				"type" : "GET",
+				"url" : "getList",
 				"data" : {
-					dutyUserId : uid
+
 				},//传递的数据
 				"dataType" : "json"
 			},
 			"columns" : [//对接收到的json格式数据进行处理，data为json中对应的key
 			{
-				"data" : "id"
+				"id" : "id"
 			}, {
-				"data" : "actualDutyUser.realName"
+				"username" : ""
 			}, {
-				"data" : "onDutyDate"
+				"cellphone" : "id"
 			}, {
-				"data" : "categoryKey.typeName.keyValue"
+				"address" : "id"
 			},
 
 			]
