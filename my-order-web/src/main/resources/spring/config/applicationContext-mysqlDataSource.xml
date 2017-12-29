@@ -62,7 +62,7 @@
     </bean>
 
     <bean id="mapperScannerConfigurer" class="org.mybatis.spring.mapper.MapperScannerConfigurer">
-        <property name="basePackage" value="com.growing.pains.dao"/>
+        <property name="basePackage" value="com.wewe.myorder.dao"/>
         <property name="annotationClass" value="org.springframework.stereotype.Repository"/>
         <property name="sqlSessionFactoryBeanName" value="mysqlSqlSessionFactory"/>
     </bean>
