@@ -8,6 +8,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="description" content="">
 <meta name="author" content="">
+<meta http-equiv="pragma" content="no-cache">
 
 <title>MAIN</title>
 
@@ -55,7 +56,7 @@
 
 <!-- DataTables JavaScript -->
 <script
-	src="<%=request.getContextPath()%>/resources/vendor/datatables/js/jquery.dataTables.min.js"></script>
+	src="<%=request.getContextPath()%>/resources/vendor/datatables/js/jquery.dataTables.js"></script>
 <script
 	src="<%=request.getContextPath()%>/resources/vendor/datatables-plugins/dataTables.bootstrap.min.js"></script>
 <script
@@ -73,42 +74,45 @@
 <script type="text/javascript">
 	$(document).ready(function() {
 		$('#user-table').DataTable({
-			"destroy" : true, //销毁表格对象
-			"searching" : false,//禁用搜索（搜索框）
-			"lengthChange" : true,
-			"paging" : true,//开启表格分页
-			"bProcessing" : true,
-			"bServerSide" : true,
-			"bAutoWidth" : false,
-			"deferRender" : true,//延迟渲染
-			"iDisplayLength" : 10,
-			"iDisplayStart" : 0,
-
+            "bStateSave": true,
+            "bServerSide": true,
+            "lengthMenu": [
+                [10, 20, 50, 100, 150, -1],
+                [10, 20, 50, 100, 150, "All"]
+            ],
+            "pageLength": 10,
 			"select" : {
 				style : 'os',
 				selector : 'td:first-child'
 			},
-			"ordering" : false,//全局禁用排序
 			"ajax" : { //ajax方式向后台发送请求
 				"type" : "GET",
 				"url" : "getList",
-				"data" : {
+				"data" : function (data) {
+                    return {};
+                },//传递的数据
+                "dataSrc": function (res) {
+                    if (res.status != 0) {
+                        return {};
+                    }
 
-				},//传递的数据
-				"dataType" : "json"
-			},
-			"columns" : [//对接收到的json格式数据进行处理，data为json中对应的key
-			{
-				"id" : "id"
-			}, {
-				"username" : ""
-			}, {
-				"cellphone" : "id"
-			}, {
-				"address" : "id"
-			},
+                    var addResult = function (result, data) {
+                        var array = [data.id, data.username, data.cellphone, data.address, data.wechat, data.level];
+                        result.push(array);
+                        return result;
+                    };
 
-			]
+                    var result = [];
+                    for (var i = 0, ien = res.data.list.length; i < ien; i++) {
+                        result = addResult(result, res.data.list[i]);
+                    }
+                    return result;
+                },
+				"dataType" : "json",
+                "order": [
+                    [1, "asc"]
+                ]
+			}
 		});
 	});
 </script>
