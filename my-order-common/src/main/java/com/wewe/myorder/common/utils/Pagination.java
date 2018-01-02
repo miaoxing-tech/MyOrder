@@ -8,8 +8,8 @@ public class Pagination {
 
   public Pagination(int pageSize, int pageNumber) {
     if (pageSize < 1) pageSize = 10;
-    if (pageNumber < 0) pageNumber = 0;
-    this.offset = pageNumber * pageSize;
+    if (pageNumber < 0) pageNumber = 1;
+    this.offset = (pageNumber - 1) * pageSize;
     this.limit = pageSize;
   }
 
