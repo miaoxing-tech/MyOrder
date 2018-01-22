@@ -1,5 +1,5 @@
-<%@ page language="java" contentType="text/html; charset=utf-8"
-	pageEncoding="utf-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -73,54 +73,7 @@
 
 	<div id="wrapper">
 
-		<!-- Navigation -->
-		<nav class="navbar navbar-default navbar-static-top" role="navigation"
-			style="margin-bottom: 0">
-		<div class="navbar-header">
-			<button type="button" class="navbar-toggle" data-toggle="collapse"
-				data-target=".navbar-collapse">
-				<span class="sr-only">Toggle navigation</span> <span
-					class="icon-bar"></span> <span class="icon-bar"></span> <span
-					class="icon-bar"></span>
-			</button>
-			<a class="navbar-brand" href="index.html">欢迎你，郑琪</a>
-		</div>
-		<!-- /.navbar-header -->
-		<div class="nav navbar-top-links navbar-right" style="margin-top: 11px; margin-right: 20px">
-			<li class="dropdown-user">
-				<button type="button" class="btn btn-primary btn-sm">
-					创建新的订单</button>
-			</li>
-			<!-- /.dropdown -->
-		</div>
-		<!-- /.navbar-top-links -->
-
-		<div class="navbar-default sidebar" role="navigation">
-			<div class="sidebar-nav navbar-collapse">
-				<ul class="nav" id="side-menu">
-
-					<li><a href="index.html"><i class="fa fa-dashboard fa-fw"></i>
-							主页</a></li>
-					<li><a href="#"><i class="fa fa-table fa-fw"></i> 订单<span
-							class="fa arrow"></span></a>
-						<ul class="nav nav-second-level">
-							<li><a href="flot.html">全部订单</a></li>
-							<li><a href="morris.html">行程</a></li>
-							<li><a href="flot.html">团购</a></li>
-							<li><a href="morris.html">秒杀</a></li>
-						</ul> <!-- /.nav-second-level --></li>
-					<li><a href="<%= request.getContextPath() %>/user/main"><i class="fa fa-user fa-fw"></i>
-							用户</a></li>
-					<li><a href="forms.html"><i
-							class="fa fa-bar-chart-o fa-fw"></i> 统计</a></li>
-					<li><a href="forms.html"><i class="fa fa-cog fa-fw"></i>
-							设置</a></li>
-
-				</ul>
-			</div>
-			<!-- /.sidebar-collapse -->
-		</div>
-		<!-- /.navbar-static-side --> </nav>
+		<%@ include file="common/menu.jsp" %>
 
 		<div id="page-wrapper">
 			<div class="row">

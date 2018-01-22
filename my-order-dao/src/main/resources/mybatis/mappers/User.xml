@@ -76,7 +76,7 @@
                 AND `LEVEL` = #{params.level}
             </if>
         </where>
-        order by id desc limit #{page.offset},#{page.limit}
+        order by CREATETIME desc limit #{page.offset},#{page.limit}
     </select>
     
     <select id="countByParams" parameterType="com.wewe.myorder.request.entity.UserQueryParams" resultType="java.lang.Integer">

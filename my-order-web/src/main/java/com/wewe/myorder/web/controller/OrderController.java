@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
 
 import com.wewe.myorder.common.result.ApiResult;
 import com.wewe.myorder.model.Order;
@@ -18,12 +19,18 @@ import com.wewe.myorder.request.entity.OrderQueryParams;
 import com.wewe.myorder.service.OrderService;
 
 @Controller
-@RequestMapping("/")
+@RequestMapping("order")
 public class OrderController {
   
   @Resource OrderService orderService;
 
   private static Logger logger = LoggerFactory.getLogger(OrderController.class);
+  
+  @RequestMapping(value = "/main", method = RequestMethod.GET)
+  public ModelAndView main(HttpServletRequest request) {
+      logger.info("REQUEST: " + request.getRequestURL().toString());
+      return new ModelAndView("order", "data", "");
+  }
   
   @RequestMapping(value = "/add", method = RequestMethod.GET)
   @ResponseBody

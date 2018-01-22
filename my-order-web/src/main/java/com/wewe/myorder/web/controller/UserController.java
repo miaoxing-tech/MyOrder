@@ -15,8 +15,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.github.pagehelper.PageHelper;
-import com.github.pagehelper.PageInfo;
 import com.wewe.myorder.common.result.ApiResult;
 import com.wewe.myorder.model.User;
 import com.wewe.myorder.request.entity.UserQueryParams;
@@ -36,7 +34,7 @@ public class UserController {
       return new ModelAndView("user", "data", "");
   }
   
-  @RequestMapping(value = "/add", method = RequestMethod.GET)
+  @RequestMapping(value = "/add", method = RequestMethod.POST)
   @ResponseBody
   public ApiResult add(@ModelAttribute User entity,
       HttpServletRequest request) {
