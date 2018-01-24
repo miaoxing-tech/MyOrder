@@ -3,193 +3,204 @@ package com.wewe.myorder.model;
 import java.io.Serializable;
 import java.util.Date;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.wewe.myorder.common.context.ConstantContext;
+
 /**
  * @author WEWE
  * @date 2017年12月26日
  * @description 订单实体类
  */
 public class Order implements Serializable {
-    /**
-     *
-     */
-    private static final long serialVersionUID = 1L;
+  /**
+   *
+   */
+  private static final long serialVersionUID = 1L;
 
-    private Integer id;
+  private int id;
 
-    /**
-     * 用户ID
-     */
-    private String user;
+  /**
+   * 用户ID
+   */
+  private String userID;
 
-    /**
-     * 商品名称
-     */
-    private String product;
+  /**
+   * 商品名称
+   */
+  private String product;
 
-    /**
-     * 商品品牌
-     */
-    private String brand;
+  /**
+   * 商品品牌
+   */
+  private String brand;
 
-    /**
-     * 商品备注
-     */
-    private String comment;
+  /**
+   * 商品备注
+   */
+  private String comment;
 
-    /**
-     * 单价
-     */
-    private long price;
+  /**
+   * 单价
+   */
+  private double price;
 
-    /**
-     * 总价
-     */
-    private long total;
+  /**
+   * 总价
+   */
+  private double total;
 
-    /**
-     * 数量
-     */
-    private Integer quantity;
+  /**
+   * 数量
+   */
+  private Integer quantity;
 
-    /**
-     * 订单状态 1：未发货2：未付款3：已发货4：已完成0：已关闭
-     */
-    private int status;
+  /**
+   * 订单状态 1：未付款2：未发货3：已发货4：已完成0：已关闭
+   */
+  private Integer status;
 
-    /**
-     * 所属行程
-     */
-    private int tripID;
+  /**
+   * 所属行程
+   */
+  private String tripID;
 
-    /**
-     * 所属秒杀
-     */
-    private int miaoID;
+  /**
+   * 所属秒杀
+   */
+  private String seckillID;
 
-    /**
-     * 所属团购
-     */
-    private int tuanID;
+  /**
+   * 所属团购
+   */
+  private String tuanID;
 
-    /**
-     * 创建时间
-     */
-    private Date createTime;
+  /**
+   * 创建时间
+   */
+  @DateTimeFormat(pattern = ConstantContext.DATETIME_PATTERN)
+  @JsonFormat(pattern = ConstantContext.DATETIME_PATTERN, timezone = ConstantContext.TIMEZONE)
+  private Date createTime;
 
-    /**
-     * 更新时间
-     */
-    private Date updateTime;
+  /**
+   * 更新时间
+   */
+  @DateTimeFormat(pattern = ConstantContext.DATETIME_PATTERN)
+  @JsonFormat(pattern = ConstantContext.DATETIME_PATTERN, timezone = ConstantContext.TIMEZONE)
+  private Date updateTime;
 
-    public Integer getId() {
-        return id;
-    }
+  public int getId() {
+    return id;
+  }
 
-    public void setId(Integer id) {
-        this.id = id;
-    }
+  public void setId(int id) {
+    this.id = id;
+  }
 
-    public String getUser() {
-        return user;
-    }
+  public String getUserID() {
+    return userID;
+  }
 
-    public void setUser(String user) {
-        this.user = user;
-    }
+  public void setUserID(String userID) {
+    this.userID = userID;
+  }
 
-    public String getProduct() {
-        return product;
-    }
+  public String getProduct() {
+    return product;
+  }
 
-    public void setProduct(String product) {
-        this.product = product;
-    }
+  public void setProduct(String product) {
+    this.product = product;
+  }
 
-    public String getBrand() {
-        return brand;
-    }
+  public String getBrand() {
+    return brand;
+  }
 
-    public void setBrand(String brand) {
-        this.brand = brand;
-    }
+  public void setBrand(String brand) {
+    this.brand = brand;
+  }
 
-    public String getComment() {
-        return comment;
-    }
+  public String getComment() {
+    return comment;
+  }
 
-    public void setComment(String comment) {
-        this.comment = comment;
-    }
+  public void setComment(String comment) {
+    this.comment = comment;
+  }
 
-    public long getPrice() {
-        return price;
-    }
+  public double getPrice() {
+    return price;
+  }
 
-    public void setPrice(long price) {
-        this.price = price;
-    }
+  public void setPrice(double price) {
+    this.price = price;
+  }
 
-    public long getTotal() {
-        return total;
-    }
+  public double getTotal() {
+    return total;
+  }
 
-    public void setTotal(long total) {
-        this.total = total;
-    }
+  public void setTotal(double total) {
+    this.total = total;
+  }
 
-    public Integer getQuantity() {
-        return quantity;
-    }
+  public Integer getQuantity() {
+    return quantity;
+  }
 
-    public void setQuantity(Integer quantity) {
-        this.quantity = quantity;
-    }
+  public void setQuantity(Integer quantity) {
+    this.quantity = quantity;
+  }
 
-    public int getStatus() {
-        return status;
-    }
+  public Integer getStatus() {
+    return status;
+  }
 
-    public void setStatus(int status) {
-        this.status = status;
-    }
+  public void setStatus(Integer status) {
+    this.status = status;
+  }
 
-    public int getTripID() {
-        return tripID;
-    }
+  public String getTripID() {
+    return tripID;
+  }
 
-    public void setTripID(int tripID) {
-        this.tripID = tripID;
-    }
+  public void setTripID(String tripID) {
+    this.tripID = tripID;
+  }
 
-    public int getMiaoID() {
-        return miaoID;
-    }
+  public String getSeckillID() {
+    return seckillID;
+  }
 
-    public void setMiaoID(int miaoID) {
-        this.miaoID = miaoID;
-    }
+  public void setSeckillID(String seckillID) {
+    this.seckillID = seckillID;
+  }
 
-    public int getTuanID() {
-        return tuanID;
-    }
+  public String getTuanID() {
+    return tuanID;
+  }
 
-    public void setTuanID(int tuanID) {
-        this.tuanID = tuanID;
-    }
+  public void setTuanID(String tuanID) {
+    this.tuanID = tuanID;
+  }
 
-    public Date getCreateTime() {
-        return createTime;
-    }
+  public Date getCreateTime() {
+    return createTime;
+  }
 
-    public void setCreateTime(Date createTime) {
-        this.createTime = createTime;
-    }
+  public void setCreateTime(Date createTime) {
+    this.createTime = createTime;
+  }
 
-    public Date getUpdateTime() {
-        return updateTime;
-    }
+  public Date getUpdateTime() {
+    return updateTime;
+  }
 
-    public void setUpdateTime(Date updateTime) {
-        this.updateTime = updateTime;
-    }
+  public void setUpdateTime(Date updateTime) {
+    this.updateTime = updateTime;
+  }
+
+
 }

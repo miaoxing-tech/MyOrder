@@ -39,8 +39,10 @@ var CONSTANT = {
             // 启用服务器端分页  
             SERVER_SIDE : true,  
             // 禁用原生搜索  
-            SEARCHING : true,
+            SEARCHING : false,
             STATE_SAVE : true,
+            //是否显示每页大小的下拉框
+            LENGTH_CHANGE : false,
             SELECT : {
 				style : 'os',
 				selector : 'td:first-child'
@@ -56,7 +58,7 @@ var CONSTANT = {
             CHECKBOX : [{
             	targets: 0,
                 render: function(data, type, row, meta) {
-                    return '<input type="checkbox" name="checklist" value="' + data.id + '" />'
+                    return '<input type="checkbox" name="checklist" value="' + meta.row + '" />'
                 }
             }]
         },  

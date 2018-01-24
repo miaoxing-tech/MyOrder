@@ -34,14 +34,14 @@ public class UserService {
   }
 
   public void delete(User entity) {
-    // TODO Auto-generated method stub
-    
+    Preconditions.checkNotNull(entity.getId(), "ID不能为空");
+    int rows = userDao.delete(entity.getId());
+    Preconditions.checkArgument(rows > 0, "删除用户失败");
   }
 
   public List<User> getList(UserQueryParams params, int pageSize, int pageNumber) {
     Pagination page = new Pagination(pageSize, pageNumber);
-    return userDao.queryByParams(params, page);
-    
+    return userDao.queryByParams(params, page);    
   }
 
   public User getUser(String id) {
@@ -51,6 +51,10 @@ public class UserService {
 
   public int getCount(UserQueryParams params, int pageSize, int pageNumber) {
     return userDao.countByParams(params, pageSize, pageNumber);
+  }
+
+  public List<User> getAll() {
+    return userDao.queryAll();
   }
 
 }

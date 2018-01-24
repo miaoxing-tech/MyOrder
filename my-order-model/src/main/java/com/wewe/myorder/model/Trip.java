@@ -3,6 +3,8 @@ package com.wewe.myorder.model;
 import java.io.Serializable;
 import java.util.Date;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.wewe.myorder.common.context.ConstantContext;
 
@@ -19,6 +21,8 @@ public class Trip implements Serializable{
 
   private String id;
 
+  private String name;
+
   /**
    * 目的地
    */
@@ -27,12 +31,14 @@ public class Trip implements Serializable{
   /**
    * 出发日期
    */
+  @DateTimeFormat(pattern = ConstantContext.DATE_PATTERN)
   @JsonFormat(pattern = ConstantContext.DATE_PATTERN, timezone = ConstantContext.TIMEZONE)
   private Date start;
 
   /**
    * 结束日期
    */
+  @DateTimeFormat(pattern = ConstantContext.DATE_PATTERN)
   @JsonFormat(pattern = ConstantContext.DATE_PATTERN, timezone = ConstantContext.TIMEZONE)
   private Date end;
 
@@ -44,13 +50,13 @@ public class Trip implements Serializable{
   /**
    * 创建时间
    */
-  @JsonFormat(pattern = ConstantContext.DATETIME_PATTERN, timezone = ConstantContext.TIMEZONE)
+  @DateTimeFormat(pattern = ConstantContext.DATETIME_PATTERN)
   private Date createTime;
 
   /**
    * 更新时间
    */
-  @JsonFormat(pattern = ConstantContext.DATETIME_PATTERN, timezone = ConstantContext.TIMEZONE)
+  @DateTimeFormat(pattern = ConstantContext.DATETIME_PATTERN)
   private Date updateTime;
 
   public String getId() {
@@ -59,6 +65,14 @@ public class Trip implements Serializable{
 
   public void setId(String id) {
     this.id = id;
+  }
+
+  public String getName() {
+    return name;
+  }
+
+  public void setName(String name) {
+    this.name = name;
   }
 
   public String getDestination() {

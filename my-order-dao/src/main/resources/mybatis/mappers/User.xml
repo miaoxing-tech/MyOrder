@@ -60,17 +60,18 @@
         <include refid="UserField"/>
         FROM `t_user`
         <where>
+        	1 = 1
             <if test="params.username != null and params.username != ''">
-                AND `USERNAME` LIKE CONCAT("%", #{params.username}, "%")
+                OR `USERNAME` LIKE CONCAT("%", #{params.username}, "%")
             </if>
             <if test="params.cellphone != null and params.cellphone != ''">
-                AND `CELLPHONE` LIKE CONCAT("%", #{params.cellphone}, "%")
+                OR `CELLPHONE` LIKE CONCAT("%", #{params.cellphone}, "%")
             </if>
             <if test="params.address != null and params.address != ''">
-                AND `ADDRESS` LIKE CONCAT("%", #{params.address}, "%")
+                OR `ADDRESS` LIKE CONCAT("%", #{params.address}, "%")
             </if>
             <if test="params.wechat != null and params.wechat != ''">
-                AND `WECHAT` LIKE CONCAT("%", #{params.wechat}, "%")
+                OR `WECHAT` LIKE CONCAT("%", #{params.wechat}, "%")
             </if>
             <if test="params.level != null">
                 AND `LEVEL` = #{params.level}
@@ -84,17 +85,18 @@
         count(*)
         FROM `t_user`
         <where>
+        	1 = 1
             <if test="params.username != null and params.username != ''">
                 AND `USERNAME` LIKE CONCAT("%", #{params.username}, "%")
             </if>
             <if test="params.cellphone != null and params.cellphone != ''">
-                AND `CELLPHONE` LIKE CONCAT("%", #{params.cellphone}, "%")
+                OR `CELLPHONE` LIKE CONCAT("%", #{params.cellphone}, "%")
             </if>
             <if test="params.address != null and params.address != ''">
-                AND `ADDRESS` LIKE CONCAT("%", #{params.address}, "%")
+                OR `ADDRESS` LIKE CONCAT("%", #{params.address}, "%")
             </if>
             <if test="params.wechat != null and params.wechat != ''">
-                AND `WECHAT` LIKE CONCAT("%", #{params.wechat}, "%")
+                OR `WECHAT` LIKE CONCAT("%", #{params.wechat}, "%")
             </if>
             <if test="params.level != null">
                 AND `LEVEL` = #{params.level}
@@ -109,6 +111,19 @@
         <where>
         	`ID` = #{id}
         </where>
+    </select>
+    
+    <delete id="delete" parameterType="String">
+        DELETE FROM `t_user`
+        <where>
+        	`ID` = #{id}
+        </where>
+    </delete>
+    
+    <select id="queryAll" resultMap="UserMap">
+        SELECT
+        <include refid="UserField"/>
+        FROM `t_user` order by USERNAME asc
     </select>
 
 </mapper>

@@ -34,3 +34,6 @@
 <script src="<%=request.getContextPath()%>/resources/library/dist/js/sb-admin-2.js"></script>
 <script src="<%=request.getContextPath()%>/resources/js/constant.js"></script>
 <script src="<%=request.getContextPath()%>/resources/js/common.js"></script>
+<!-- Chosen -->
+<script src="<%=request.getContextPath()%>/resources/library/chosen.jquery.js"></script>
+<link href="<%=request.getContextPath()%>/resources/library/chosen.css" rel="stylesheet">

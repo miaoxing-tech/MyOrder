@@ -4,118 +4,9 @@
 <html>
 <head>
 
-<meta http-equiv="X-UA-Compatible" content="IE=edge">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="description" content="">
-<meta name="author" content="">
-<meta http-equiv="pragma" content="no-cache">
+<%@ include file="common/header.jsp"%>
 
-<title>MAIN</title>
-
-<!-- Bootstrap Core CSS -->
-<link
-	href="<%=request.getContextPath()%>/resources/vendor/bootstrap/css/bootstrap.min.css"
-	rel="stylesheet">
-
-<!-- MetisMenu CSS -->
-<link
-	href="<%=request.getContextPath()%>/resources/vendor/metisMenu/metisMenu.min.css"
-	rel="stylesheet">
-
-<!-- Custom CSS -->
-<link
-	href="<%=request.getContextPath()%>/resources/dist/css/sb-admin-2.css"
-	rel="stylesheet">
-
-<!-- DataTables CSS -->
-<link
-	href="<%=request.getContextPath()%>/resources/vendor/datatables-plugins/dataTables.bootstrap.css"
-	rel="stylesheet">
-
-<!-- DataTables Responsive CSS -->
-<link
-	href="<%=request.getContextPath()%>/resources/vendor/datatables-responsive/dataTables.responsive.css"
-	rel="stylesheet">
-
-<!-- Custom Fonts -->
-<link
-	href="<%=request.getContextPath()%>/resources/vendor/font-awesome/css/font-awesome.min.css"
-	rel="stylesheet" type="text/css">
-
-<!-- jQuery -->
-<script
-	src="<%=request.getContextPath()%>/resources/vendor/jquery/jquery.min.js"></script>
-
-<!-- Bootstrap Core JavaScript -->
-<script
-	src="<%=request.getContextPath()%>/resources/vendor/bootstrap/js/bootstrap.min.js"></script>
-
-<!-- Metis Menu Plugin JavaScript -->
-<script
-	src="<%=request.getContextPath()%>/resources/vendor/metisMenu/metisMenu.min.js"></script>
-
-<!-- DataTables JavaScript -->
-<script
-	src="<%=request.getContextPath()%>/resources/vendor/datatables/js/jquery.dataTables.js"></script>
-<script
-	src="<%=request.getContextPath()%>/resources/vendor/datatables-plugins/dataTables.bootstrap.min.js"></script>
-<script
-	src="<%=request.getContextPath()%>/resources/vendor/datatables-responsive/dataTables.responsive.js"></script>
-<!-- Custom Theme JavaScript -->
-<script
-	src="<%=request.getContextPath()%>/resources/dist/js/sb-admin-2.js"></script>
-
-<!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
-<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-<!--[if lt IE 9]>
-        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
-        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
-    <![endif]-->
-<script type="text/javascript">
-	$(document).ready(function() {
-		$('#user-table').DataTable({
-            "bStateSave": true,
-            "bServerSide": true,
-            "lengthMenu": [
-                [10, 20, 50, 100, 150, -1],
-                [10, 20, 50, 100, 150, "All"]
-            ],
-            "pageLength": 10,
-			"select" : {
-				style : 'os',
-				selector : 'td:first-child'
-			},
-			"ajax" : { //ajax方式向后台发送请求
-				"type" : "GET",
-				"url" : "getList",
-				"data" : function (data) {
-                    return {};
-                },//传递的数据
-                "dataSrc": function (res) {
-                    if (res.status != 0) {
-                        return {};
-                    }
-
-                    var addResult = function (result, data) {
-                        var array = [data.id, data.username, data.cellphone, data.address, data.wechat, data.level];
-                        result.push(array);
-                        return result;
-                    };
-
-                    var result = [];
-                    for (var i = 0, ien = res.data.list.length; i < ien; i++) {
-                        result = addResult(result, res.data.list[i]);
-                    }
-                    return result;
-                },
-				"dataType" : "json",
-                "order": [
-                    [1, "asc"]
-                ]
-			}
-		});
-	});
-</script>
+<script src="<%=request.getContextPath()%>/resources/js/order.js"></script>
 
 </head>
 
@@ -123,58 +14,228 @@
 
 	<div id="wrapper">
 
-				<%@ include file="common/menu.jsp" %>
-
+		<%@ include file="common/menu.jsp"%>
 
 		<div id="page-wrapper">
-			<div class="row">
+			<div class="row" style="padding-top: 15px; padding-bottom: 15px">
 				<div class="col-lg-12">
-					<button type="button" class="btn btn-primary btn-sm">添加用户</button>
-					<button type="button" class="btn btn-primary btn-sm">修改用户</button>
-					<button type="button" class="btn btn-primary btn-sm">删除用户</button>
+					<button type="button" class="btn btn-success btn-default"
+						data-toggle="modal" data-target="#addOrderModal" id="showAddBtn">添加订单</button>
+					<button type="button" class="btn btn-warning btn-default"
+						data-toggle="modal" data-target="#editOrderModal" id="showEditBtn">修改订单</button>
+					<button type="button" class="btn btn-danger btn-default"
+						id="deleteBtn">删除订单</button>
+					<label style="float: right"><input type="search"
+						class="form-control input-default" placeholder="关键字搜索"
+						id="searchIn"></label>
 				</div>
-				<!-- /.col-lg-12 -->
 			</div>
-			<!-- /.row -->
 			<div class="row">
 				<div class="col-lg-12">
-					<div class="panel panel-default">
-						<div class="panel-heading">用户列表</div>
-						<!-- /.panel-heading -->
+					<div class="panel panel-primary">
+						<div class="panel-heading">订单列表</div>
 						<div class="panel-body">
 							<table width="100%"
 								class="table table-striped table-bordered table-hover"
-								id="user-table">
+								id="order-table">
 								<thead>
 									<tr>
+										<th></th>
 										<th>ID</th>
 										<th>用户名</th>
-										<th>手机号</th>
-										<th>地址</th>
-										<th>微信</th>
-										<th>等级</th>
+										<th>商品名称</th>
+										<th>商品品牌</th>
+										<th>商品备注</th>
+										<th>单价</th>
+										<th>总价</th>
+										<th>数量</th>
+										<th>订单状态</th>
+										<th>所属行程</th>
+										<th>所属秒杀</th>
+										<th>所属团购</th>
+										<th>创建时间</th>
+										<th></th>
+										<th></th>
+										<th></th>
+										<th></th>
+										<th></th>
 									</tr>
 								</thead>
 							</table>
-							<!-- /.table-responsive -->
-
 						</div>
-						<!-- /.panel-body -->
 					</div>
-					<!-- /.panel -->
 				</div>
-				<!-- /.col-lg-12 -->
 			</div>
-
 		</div>
-		<!-- /#page-wrapper -->
-	</div>
-	<!-- /#page-wrapper -->
 
 	</div>
-	<!-- /#wrapper -->
+	<!-- 添加订单 -->
+	<div class="modal fade" data-backdrop="static" id="addOrderModal"
+		tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+		aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal"
+						aria-hidden="true">&times;</button>
+					<h4 class="modal-title" id="myModalLabel">添加订单</h4>
+				</div>
+				<div class="modal-body">
+					<form role="form" id="addOrderForm">
+						<div class="form-group">
+							<label>用户名</label> <select class="form-control" name="userID">
+							</select>
+							<p class="help-block">请选择订单所属用户</p>
+						</div>
+						<div class="form-group">
+							<label>商品名称</label> <input type="text" class="form-control"
+								name="product">
+							<p class="help-block">这里填写商品名称</p>
+						</div>
+						<div class="form-group">
+							<label>商品品牌</label> <input type="text" class="form-control"
+								name="brand">
+							<p class="help-block">这里填写商品品牌</p>
+						</div>
+						<div class="form-group">
+							<label>商品备注</label>
+							<textarea class="form-control" rows="3" name="comment"></textarea>
+							<p class="help-block">这里填写商品备注</p>
+						</div>
+						<div class="form-group">
+							<label>单价</label> <input type="text" class="form-control"
+								name="price">
+							<p class="help-block">这里填写单价，精确到分</p>
+						</div>
+						<div class="form-group">
+							<label>数量</label> <input type="text" class="form-control"
+								name="quantity">
+							<p class="help-block">这里填写数量</p>
+						</div>
+						<div class="form-group">
+							<label>总价</label> <input type="text" class="form-control"
+								name="total">
+							<p class="help-block">这里填写总价，精确到分</p>
+						</div>
+						<div class="form-group">
+							<label>所属行程</label> <select class="form-control" name="tripID">
+							</select>
+							<p class="help-block">请选择订单所属行程</p>
+						</div>
+						<div class="form-group">
+							<label>所属秒杀</label> <select class="form-control" name="seckillID">
+							</select>
+							<p class="help-block">请选择订单所属秒杀</p>
+						</div>
+						<div class="form-group">
+							<label>所属团购</label> <select class="form-control" name="tuanID">
+							</select>
+							<p class="help-block">请选择订单所属团购</p>
+						</div>
+						<div class="form-group">
+							<label>订单状态</label> <select class="form-control" name="status">
+								<option value="1">未付款</option>
+								<option value="2">未发货</option>
+								<option value="3">已发货</option>
+								<option value="4">已完成</option>
+								<option value="0">已关闭</option>
+							</select>
+						</div>
+					</form>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+					<button type="button" class="btn btn-primary" id="addOrderBtn">保存</button>
+				</div>
+			</div>
+		</div>
+	</div>
 
-
+	<!-- 修改订单 -->
+	<div class="modal fade" data-backdrop="static" id="editOrderModal"
+		tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+		aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal"
+						aria-hidden="true">&times;</button>
+					<h4 class="modal-title" id="myModalLabel">修改订单</h4>
+				</div>
+				<div class="modal-body">
+					<form role="form" id="editOrderForm">
+						<div class="form-group">
+							<label>ID</label> <input class="form-control" name="id" readonly>
+							<p class="help-block">此项不可修改</p>
+						</div>
+						<div class="form-group">
+							<label>用户名</label> <select class="form-control" name="userID">
+							</select>
+							<p class="help-block">请选择订单所属用户</p>
+						</div>
+						<div class="form-group">
+							<label>商品名称</label> <input type="text" class="form-control"
+								name="product">
+							<p class="help-block">这里填写商品名称</p>
+						</div>
+						<div class="form-group">
+							<label>商品品牌</label> <input type="text" class="form-control"
+								name="brand">
+							<p class="help-block">这里填写商品品牌</p>
+						</div>
+						<div class="form-group">
+							<label>商品备注</label>
+							<textarea class="form-control" rows="3" name="comment"></textarea>
+							<p class="help-block">这里填写商品备注</p>
+						</div>
+						<div class="form-group">
+							<label>单价</label> <input type="text" class="form-control"
+								name="price">
+							<p class="help-block">这里填写单价，精确到分</p>
+						</div>
+						<div class="form-group">
+							<label>数量</label> <input type="text" class="form-control"
+								name="quantity">
+							<p class="help-block">这里填写数量</p>
+						</div>
+						<div class="form-group">
+							<label>总价</label> <input type="text" class="form-control"
+								name="total">
+							<p class="help-block">这里填写总价，精确到分</p>
+						</div>
+						<div class="form-group">
+							<label>所属行程</label> <select class="form-control" name="tripID">
+							</select>
+							<p class="help-block">请选择订单所属行程</p>
+						</div>
+						<div class="form-group">
+							<label>所属行程</label> <select class="form-control" name="seckillID">
+							</select>
+							<p class="help-block">请选择订单所属行程</p>
+						</div>
+						<div class="form-group">
+							<label>所属团购</label> <select class="form-control" name="tuanID">
+							</select>
+							<p class="help-block">请选择订单所属团购</p>
+						</div>
+						<div class="form-group">
+							<label>订单状态</label> <select class="form-control" name="status">
+								<option value="1">未付款</option>
+								<option value="2">未发货</option>
+								<option value="3">已发货</option>
+								<option value="4">已完成</option>
+								<option value="0">已关闭</option>
+							</select>
+						</div>
+					</form>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+					<button type="button" class="btn btn-primary" id="editOrderBtn">保存</button>
+				</div>
+			</div>
+		</div>
+	</div>
 
 </body>
 </html>

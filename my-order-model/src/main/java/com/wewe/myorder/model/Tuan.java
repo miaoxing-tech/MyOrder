@@ -3,6 +3,8 @@ package com.wewe.myorder.model;
 import java.io.Serializable;
 import java.util.Date;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.wewe.myorder.common.context.ConstantContext;
 
@@ -18,6 +20,8 @@ public class Tuan implements Serializable{
   private static final long serialVersionUID = 1L;
 
   private String id;
+
+  private String name;
 
   /**
    * 商品名称
@@ -37,17 +41,19 @@ public class Tuan implements Serializable{
   /**
    * 单价
    */
-  private long price;
+  private double price;
 
   /**
    * 创建时间
    */
+  @DateTimeFormat(pattern = ConstantContext.DATETIME_PATTERN)
   @JsonFormat(pattern = ConstantContext.DATETIME_PATTERN, timezone = ConstantContext.TIMEZONE)
   private Date createTime;
 
   /**
    * 更新时间
    */
+  @DateTimeFormat(pattern = ConstantContext.DATETIME_PATTERN)
   @JsonFormat(pattern = ConstantContext.DATETIME_PATTERN, timezone = ConstantContext.TIMEZONE)
   private Date updateTime;
 
@@ -57,6 +63,14 @@ public class Tuan implements Serializable{
 
   public void setId(String id) {
     this.id = id;
+  }
+
+  public String getName() {
+    return name;
+  }
+
+  public void setName(String name) {
+    this.name = name;
   }
 
   public String getProduct() {
@@ -83,11 +97,11 @@ public class Tuan implements Serializable{
     this.comment = comment;
   }
 
-  public long getPrice() {
+  public double getPrice() {
     return price;
   }
 
-  public void setPrice(long price) {
+  public void setPrice(double price) {
     this.price = price;
   }
 

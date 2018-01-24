@@ -14,6 +14,43 @@ $.fn.serializeObject = function() {
 	});  
 	return o;  
 }; 
+
+//填写表单数据
+function fillForm(formID,jsonStr){
+	var obj =jsonStr;
+	var key,value,tagName,type,arr;
+	for(x in obj){
+		key = x;
+		value = obj[x];		
+		$(formID+" [name='"+key+"'],"+formID+" [name='"+key+"[]']").each(function(){
+			tagName = $(this)[0].tagName;
+			type = $(this).attr('type');
+			if(tagName=='INPUT'){
+				if(type=='radio'){
+					$(this).attr('checked',$(this).val()==value);
+				}else if(type=='checkbox'){
+					if((value+"").indexOf(',')>-1){
+						arr = value.split(',');
+					}else{
+						arr = value;
+					}
+					for(var i =0;i<arr.length;i++){
+						if($(this).val()==arr[i]){
+							$(this).attr('checked',true);
+							break;
+						}
+					}
+				}else{
+					$(this).val(value);
+				}
+			}else if(tagName=='SELECT' || tagName=='TEXTAREA'){
+				$(this).val(value);
+			}else{
+				$(this).val(value);
+			}			
+		});
+	}
+}
 //将表单中数据清空 
 function clearForm(formId){
 	var tagName,type;
@@ -35,6 +72,16 @@ function clearForm(formId){
 		}			
 	});
 }
+function fillSelect(url,name,value,form,select){
+	var data = ajaxResult("get", "json", false, CONSTANT.URL_ROOT + url, "");
+	var result = "";
+	if(data.status == 0){
+		$.each(data.data,function(index,content){
+			result +="<option value="+content[name]+">"+content[value]+"</option>";
+		})
+	}
+	$(form+" select[name="+select+"]").html(result);
+}
 //ajax请求，带回调函数
 function ajaxFunc(t_type,t_dataType,t_async,t_url,t_data,t_func){
 	$.ajax({
@@ -47,6 +94,21 @@ function ajaxFunc(t_type,t_dataType,t_async,t_url,t_data,t_func){
 			t_func(msg);
 		}
 	});
+}
+//ajax请求，不带回调函数
+function ajaxResult(t_type,t_dataType,t_async,t_url,t_data){		
+	var result="";
+	$.ajax({
+		type:t_type,
+		dataType: t_dataType,
+		async:t_async,
+		url:t_url,
+		data:t_data,
+		success:function(msg){
+		    result=msg;		   
+		}
+	});	
+	return result;
 }
 //刷新表格
 function refreshTable(tableid){

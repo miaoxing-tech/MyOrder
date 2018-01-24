@@ -1,5 +1,5 @@
 $(document).ready(function() {
-	$('#user-table').DataTable({
+	$('#trip-table').DataTable({
 		"language": CONSTANT.DATA_TABLES.DEFAULT_OPTION.LANGUAGE,
 		"lengthMenu": CONSTANT.DATA_TABLES.DEFAULT_OPTION.LENGTH_MENU,
 		"stateSave": CONSTANT.DATA_TABLES.DEFAULT_OPTION.STATE_SAVE,
@@ -15,10 +15,8 @@ $(document).ready(function() {
 			"data" : function (data) {
 				var params = {};
 				var searchValue = $("#searchIn").val().trim();
-				params["username"] = searchValue;
-				params["cellphone"] = searchValue;
-				params["address"] = searchValue;
-				params["wechat"] = searchValue;
+				params["name"] = searchValue;
+				params["destination"] = searchValue;
 				return params;
 			},//传递的数据
 			"dataSrc": function (res) {
@@ -27,7 +25,7 @@ $(document).ready(function() {
 				}
 
 				var addResult = function (result, data) {
-					var array = [0, data.id, data.username, data.cellphone, data.address, data.wechat, data.level];
+					var array = [0, data.id, data.name, data.destination, data.start, data.end, data.comment];
 					result.push(array);
 					return result;
 				};
@@ -47,28 +45,28 @@ $(document).ready(function() {
 	$("#showEditBtn").click(function(){
 		var checkedData = $("input:checkbox[name='checklist']:checked");
 		if (checkedData.length == 0)
-			alert("请选择用户！");
+			alert("请选择行程！");
 		else {
 			var index = checkedData[0].value;
-			var data = $('#user-table').dataTable().fnGetData(index);
+			var data = $('#trip-table').dataTable().fnGetData(index);
 			var info = {};
 			info["id"] = data[1];
-			info["username"] = data[2];
-			info["cellphone"] = data[3];
-			info["address"] = data[4];
-			info["wechat"] = data[5];
-			info["level"] = data[6];
-			fillForm('#editUserForm', info);
+			info["name"] = data[2];
+			info["destination"] = data[3];
+			info["start"] = data[4];
+			info["end"] = data[5];
+			info["comment"] = data[6];
+			fillForm('#editTripForm', info);
 		}
 	})
-	$("#addUserBtn").click(function(){
-		submitData('addUserForm','user/add',addCallBack);
+	$("#addTripBtn").click(function(){
+		submitData('addTripForm','trip/add',addCallBack);
 	})
-	$("#editUserBtn").click(function(){
-		submitData('editUserForm','user/edit',editCallBack);
+	$("#editTripBtn").click(function(){
+		submitData('editTripForm','trip/edit',editCallBack);
 	})
 	$('#searchIn').bind('input propertychange', function() {  
-		refreshTable('user-table');
+		refreshTable('trip-table');
 	});  
 	$("input:checkbox[name='checklist']").click(function(){
 		$(this).attr("checked",true);//设置当前选中checkbox的状态为checked
@@ -77,28 +75,28 @@ $(document).ready(function() {
 	$("#deleteBtn").click(function(){
 		var checkedData = $("input:checkbox[name='checklist']:checked");
 		if (checkedData.length == 0)
-			alert("请选择用户！");
+			alert("请选择行程！");
 		else {
 			var index = checkedData[0].value;
-			var data = $('#user-table').dataTable().fnGetData(index);
+			var data = $('#trip-table').dataTable().fnGetData(index);
 			var info = {};
 			info["id"] = data[1];
-			ajaxFunc("get","json", true, CONSTANT.URL_ROOT + "user/delete", info, deleteCallBack)
+			ajaxFunc("get","json", true, CONSTANT.URL_ROOT + "trip/delete", info, deleteCallBack)
 		}
 	})
 });
 
 function addCallBack(msg,t_dom) {
 	alert(msg.message);
-	closeWin('addUserModal', '#addUserForm');
-	refreshTable('user-table');
+	closeWin('addTripModal', '#addTripForm');
+	refreshTable('trip-table');
 }
 function editCallBack(msg,t_dom) {
 	alert(msg.message);
-	closeWin('editUserModal', '#editUserForm');
-	refreshTable('user-table');
+	closeWin('editTripModal', '#editTripForm');
+	refreshTable('trip-table');
 }
 function deleteCallBack(msg,t_dom) {
 	alert(msg.message);
-	refreshTable('user-table');
+	refreshTable('trip-table');
 }

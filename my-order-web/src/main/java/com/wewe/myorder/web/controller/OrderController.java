@@ -1,5 +1,7 @@
 package com.wewe.myorder.web.controller;
 
+import java.util.List;
+
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 
@@ -16,6 +18,7 @@ import org.springframework.web.servlet.ModelAndView;
 import com.wewe.myorder.common.result.ApiResult;
 import com.wewe.myorder.model.Order;
 import com.wewe.myorder.request.entity.OrderQueryParams;
+import com.wewe.myorder.response.entity.OrderResponse;
 import com.wewe.myorder.service.OrderService;
 
 @Controller
@@ -32,7 +35,7 @@ public class OrderController {
       return new ModelAndView("order", "data", "");
   }
   
-  @RequestMapping(value = "/add", method = RequestMethod.GET)
+  @RequestMapping(value = "/add", method = RequestMethod.POST)
   @ResponseBody
   public ApiResult add(@ModelAttribute Order entity,
       HttpServletRequest request) {
@@ -46,7 +49,7 @@ public class OrderController {
     }
   } 
   
-  @RequestMapping(value = "/edit", method = RequestMethod.GET)
+  @RequestMapping(value = "/edit", method = RequestMethod.POST)
   @ResponseBody
   public ApiResult edit(@ModelAttribute Order entity,
       HttpServletRequest request) {
@@ -82,8 +85,9 @@ public class OrderController {
       HttpServletRequest request) {
     logger.info("REQUEST: " + request.getRequestURL().toString());
     try {
-      orderService.getList(params, pageSize, pageNumber);
-      return ApiResult.succ();
+      List<OrderResponse> list = orderService.getList(params, pageSize, pageNumber);
+      int total = orderService.getCount(params, pageSize, pageNumber);
+      return ApiResult.buildPagination(0, total, list);
     } catch (Exception e) {
       logger.error("error message = {}" + e.getMessage(), e);
       return ApiResult.fail(e.getMessage());

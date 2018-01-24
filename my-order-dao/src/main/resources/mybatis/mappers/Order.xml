@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.wewe.myorder.dao.OrderDao">
+
+<resultMap id="OrderMap" type="com.wewe.myorder.model.Order">
+        <result column="ID" property="id"/>
+        <result column="USER_ID" property="userID"/>
+        <result column="PRODUCT" property="product"/>
+        <result column="BRAND" property="brand"/>
+        <result column="COMMENT" property="comment"/>
+        <result column="PRICE" property="price"/>
+        <result column="TOTAL" property="total"/>
+        <result column="QUANTITY" property="quantity"/>
+        <result column="TRIP_ID" property="tripID"/>
+        <result column="SECKILL_ID" property="seckillID"/>
+        <result column="TUAN_ID" property="tuanID"/>
+        <result column="CREATETIME" property="createTime"/>
+        <result column="STATUS" property="status"/>
+        <result column="UPDATETIME" property="updateTime"/>
+    </resultMap>
+
+    <sql id="OrderField">
+        `ID`,
+        `USER_ID`,
+        `PRODUCT`,
+        `BRAND`,
+        `COMMENT`,
+        `PRICE`,
+        `TOTAL`,
+        `QUANTITY`,
+        `TRIP_ID`,
+        `SECKILL_ID`,
+        `TUAN_ID`,
+        `CREATETIME`,
+        `STATUS`,
+        `UPDATETIME`
+    </sql>
+
+	<insert id="insert" parameterType="com.wewe.myorder.model.Order">
+		INSERT INTO `t_order`
+		(
+		USER_ID,PRODUCT,BRAND,COMMENT,PRICE,TOTAL,QUANTITY,TRIP_ID,SECKILL_ID,TUAN_ID,CREATETIME,STATUS
+		)
+		VALUES
+		(
+		#{entity.userID},#{entity.product},#{entity.brand},#{entity.comment},#{entity.price},#{entity.total},#{entity.quantity},#{entity.tripID},#{entity.seckillID},#{entity.tuanID},#{entity.createTime},#{entity.status}
+		)
+	</insert>
+	
+	<update id="update">
+        UPDATE `t_order`
+        SET
+        <if test="entity.userID != null">
+            `USER_ID` = #{entity.userID},
+        </if>
+        <if test="entity.product != null">
+            `PRODUCT` = #{entity.product},
+        </if>
+        <if test="entity.brand != null">
+            `BRAND` = #{entity.brand},
+        </if>
+        <if test="entity.comment != null">
+            `COMMENT` = #{entity.comment},
+        </if>
+        <if test="entity.price != null">
+            `PRICE` = #{entity.price},
+        </if>
+        <if test="entity.total != null">
+            `TOTAL` = #{entity.total},
+        </if>
+        <if test="entity.quantity != null">
+            `QUANTITY` = #{entity.quantity},
+        </if>
+        <if test="entity.tripID != null">
+            `TRIP_ID` = #{entity.tripID},
+        </if>
+        <if test="entity.seckillID != null">
+            `SECKILL_ID` = #{entity.seckillID},
+        </if>
+        <if test="entity.tuanID != null">
+            `TUAN_ID` = #{entity.tuanID},
+        </if>
+        <if test="entity.status != null">
+            `STATUS` = #{entity.status},
+        </if>
+        `UPDATETIME` = #{entity.updateTime}
+        WHERE
+        `ID` = #{entity.id}
+    </update>
+	
+	<select id="queryByParams" parameterType="com.wewe.myorder.request.entity.OrderQueryParams" resultMap="OrderMap">
+        SELECT
+        <include refid="OrderField"/>
+        FROM `t_order`
+        <where>
+        	1 = 1
+            <if test="params.userID != null and params.userID != ''">
+                AND `USER_ID` = #{params.userID}
+            </if>
+            <if test="params.product != null and params.product != ''">
+                OR `PDODUCT` LIKE CONCAT("%", #{params.product}, "%")
+            </if>
+            <if test="params.brand != null and params.brand != ''">
+                OR `BRAND` LIKE CONCAT("%", #{params.brand}, "%")
+            </if>
+            <if test="params.comment != null and params.comment != ''">
+                OR `COMMENT` LIKE CONCAT("%", #{params.comment}, "%")
+            </if>
+            <if test="params.status != null">
+                AND `STATUS` = #{params.status}
+            </if>
+            <if test="params.tripID != null">
+                AND `TRIP_ID` = #{params.tripID}
+            </if>
+            <if test="params.seckillID != null">
+                AND `SECKILL_ID` = #{params.seckillID}
+            </if>
+            <if test="params.tuanID != null">
+                AND `TUAN_ID` = #{params.tuanID}
+            </if>
+        </where>
+        order by CREATETIME desc limit #{page.offset},#{page.limit}
+    </select>
+    
+    <select id="countByParams" parameterType="com.wewe.myorder.request.entity.OrderQueryParams" resultType="java.lang.Integer">
+        SELECT
+        count(*)
+        FROM `t_order`
+        <where>
+        	1 = 1
+            <if test="params.userID != null and params.userID != ''">
+                AND `USER_ID` = #{params.userID}
+            </if>
+            <if test="params.product != null and params.product != ''">
+                OR `PDODUCT` LIKE CONCAT("%", #{params.product}, "%")
+            </if>
+            <if test="params.brand != null and params.brand != ''">
+                OR `BRAND` LIKE CONCAT("%", #{params.brand}, "%")
+            </if>
+            <if test="params.comment != null and params.comment != ''">
+                OR `COMMENT` LIKE CONCAT("%", #{params.comment}, "%")
+            </if>
+            <if test="params.status != null">
+                AND `STATUS` = #{params.status}
+            </if>
+            <if test="params.tripID != null">
+                AND `TRIP_ID` = #{params.tripID}
+            </if>
+            <if test="params.seckillID != null">
+                AND `SECKILL_ID` = #{params.seckillID}
+            </if>
+            <if test="params.tuanID != null">
+                AND `TUAN_ID` = #{params.tuanID}
+            </if>
+        </where>
+    </select>
+    
+    <select id="queryByID" parameterType="String" resultMap="OrderMap">
+        SELECT
+        <include refid="OrderField"/>
+        FROM `t_order`
+        <where>
+        	`ID` = #{id}
+        </where>
+    </select>
+    
+    <delete id="delete" parameterType="java.lang.Integer">
+        DELETE FROM `t_order`
+        <where>
+        	`ID` = #{id}
+        </where>
+    </delete>
+
+</mapper>

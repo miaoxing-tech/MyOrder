@@ -1,5 +1,7 @@
 package com.wewe.myorder.web.controller;
 
+import java.util.List;
+
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 
@@ -32,7 +34,7 @@ public class TuanController {
       return new ModelAndView("tuan", "data", "");
   }
 
-  @RequestMapping(value = "/add", method = RequestMethod.GET)
+  @RequestMapping(value = "/add", method = RequestMethod.POST)
   @ResponseBody
   public ApiResult add(@ModelAttribute Tuan entity,
       HttpServletRequest request) {
@@ -46,7 +48,7 @@ public class TuanController {
     }
   } 
 
-  @RequestMapping(value = "/edit", method = RequestMethod.GET)
+  @RequestMapping(value = "/edit", method = RequestMethod.POST)
   @ResponseBody
   public ApiResult edit(@ModelAttribute Tuan entity,
       HttpServletRequest request) {
@@ -82,12 +84,41 @@ public class TuanController {
       HttpServletRequest request) {
     logger.info("REQUEST: " + request.getRequestURL().toString());
     try {
-     tuanService.getList(params, pageSize, pageNumber);
-      return ApiResult.succ();
+      List<Tuan> list = tuanService.getList(params, pageSize, pageNumber);
+      int total = tuanService.getCount(params, pageSize, pageNumber);
+      return ApiResult.buildPagination(0, total, list);
     } catch (Exception e) {
       logger.error("error message = {}" + e.getMessage(), e);
       return ApiResult.fail(e.getMessage());
     }
   }
+
+  @RequestMapping(value = "/getTuan", method = RequestMethod.GET)
+  @ResponseBody
+  public ApiResult getTuan(@RequestParam(value = "id", required = true) String id,
+      HttpServletRequest request) {
+    logger.info("REQUEST: " + request.getRequestURL().toString());
+    try {
+      Tuan tuan = tuanService.getTuan(id);
+      return ApiResult.succ(0, tuan);
+    } catch (Exception e) {
+      logger.error("error message = {}" + e.getMessage(), e);
+      return ApiResult.fail(e.getMessage());
+    }
+  }
+  
+  @RequestMapping(value = "/getAll", method = RequestMethod.GET)
+  @ResponseBody
+  public ApiResult getAll(HttpServletRequest request) {
+    logger.info("REQUEST: " + request.getRequestURL().toString());
+    try {
+      List<Tuan> list = tuanService.getAll();
+      return ApiResult.succ(list);
+    } catch (Exception e) {
+      logger.error("error message = {}" + e.getMessage(), e);
+      return ApiResult.fail(e.getMessage());
+    }
+  }
+
 
 }

@@ -4,118 +4,9 @@
 <html>
 <head>
 
-<meta http-equiv="X-UA-Compatible" content="IE=edge">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="description" content="">
-<meta name="author" content="">
-<meta http-equiv="pragma" content="no-cache">
+<%@ include file="common/header.jsp"%>
 
-<title>MAIN</title>
-
-<!-- Bootstrap Core CSS -->
-<link
-	href="<%=request.getContextPath()%>/resources/vendor/bootstrap/css/bootstrap.min.css"
-	rel="stylesheet">
-
-<!-- MetisMenu CSS -->
-<link
-	href="<%=request.getContextPath()%>/resources/vendor/metisMenu/metisMenu.min.css"
-	rel="stylesheet">
-
-<!-- Custom CSS -->
-<link
-	href="<%=request.getContextPath()%>/resources/dist/css/sb-admin-2.css"
-	rel="stylesheet">
-
-<!-- DataTables CSS -->
-<link
-	href="<%=request.getContextPath()%>/resources/vendor/datatables-plugins/dataTables.bootstrap.css"
-	rel="stylesheet">
-
-<!-- DataTables Responsive CSS -->
-<link
-	href="<%=request.getContextPath()%>/resources/vendor/datatables-responsive/dataTables.responsive.css"
-	rel="stylesheet">
-
-<!-- Custom Fonts -->
-<link
-	href="<%=request.getContextPath()%>/resources/vendor/font-awesome/css/font-awesome.min.css"
-	rel="stylesheet" type="text/css">
-
-<!-- jQuery -->
-<script
-	src="<%=request.getContextPath()%>/resources/vendor/jquery/jquery.min.js"></script>
-
-<!-- Bootstrap Core JavaScript -->
-<script
-	src="<%=request.getContextPath()%>/resources/vendor/bootstrap/js/bootstrap.min.js"></script>
-
-<!-- Metis Menu Plugin JavaScript -->
-<script
-	src="<%=request.getContextPath()%>/resources/vendor/metisMenu/metisMenu.min.js"></script>
-
-<!-- DataTables JavaScript -->
-<script
-	src="<%=request.getContextPath()%>/resources/vendor/datatables/js/jquery.dataTables.js"></script>
-<script
-	src="<%=request.getContextPath()%>/resources/vendor/datatables-plugins/dataTables.bootstrap.min.js"></script>
-<script
-	src="<%=request.getContextPath()%>/resources/vendor/datatables-responsive/dataTables.responsive.js"></script>
-<!-- Custom Theme JavaScript -->
-<script
-	src="<%=request.getContextPath()%>/resources/dist/js/sb-admin-2.js"></script>
-
-<!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
-<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-<!--[if lt IE 9]>
-        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
-        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
-    <![endif]-->
-<script type="text/javascript">
-	$(document).ready(function() {
-		$('#user-table').DataTable({
-            "bStateSave": true,
-            "bServerSide": true,
-            "lengthMenu": [
-                [10, 20, 50, 100, 150, -1],
-                [10, 20, 50, 100, 150, "All"]
-            ],
-            "pageLength": 10,
-			"select" : {
-				style : 'os',
-				selector : 'td:first-child'
-			},
-			"ajax" : { //ajax方式向后台发送请求
-				"type" : "GET",
-				"url" : "getList",
-				"data" : function (data) {
-                    return {};
-                },//传递的数据
-                "dataSrc": function (res) {
-                    if (res.status != 0) {
-                        return {};
-                    }
-
-                    var addResult = function (result, data) {
-                        var array = [data.id, data.username, data.cellphone, data.address, data.wechat, data.level];
-                        result.push(array);
-                        return result;
-                    };
-
-                    var result = [];
-                    for (var i = 0, ien = res.data.list.length; i < ien; i++) {
-                        result = addResult(result, res.data.list[i]);
-                    }
-                    return result;
-                },
-				"dataType" : "json",
-                "order": [
-                    [1, "asc"]
-                ]
-			}
-		});
-	});
-</script>
+<script src="<%=request.getContextPath()%>/resources/js/trip.js"></script>
 
 </head>
 
@@ -123,58 +14,146 @@
 
 	<div id="wrapper">
 
-				<%@ include file="common/menu.jsp" %>
-
+		<%@ include file="common/menu.jsp"%>
 
 		<div id="page-wrapper">
-			<div class="row">
+			<div class="row" style="padding-top: 15px; padding-bottom: 15px">
 				<div class="col-lg-12">
-					<button type="button" class="btn btn-primary btn-sm">添加用户</button>
-					<button type="button" class="btn btn-primary btn-sm">修改用户</button>
-					<button type="button" class="btn btn-primary btn-sm">删除用户</button>
+					<button type="button" class="btn btn-success btn-default"
+						data-toggle="modal" data-target="#addTripModal" id="showAddBtn">添加行程</button>
+					<button type="button" class="btn btn-warning btn-default"
+						data-toggle="modal" data-target="#editTripModal" id="showEditBtn">修改行程</button>
+					<button type="button" class="btn btn-danger btn-default"
+						id="deleteBtn">删除行程</button>
+					<label style="float: right"><input type="search"
+						class="form-control input-default" placeholder="关键字搜索"
+						id="searchIn"></label>
 				</div>
-				<!-- /.col-lg-12 -->
 			</div>
-			<!-- /.row -->
 			<div class="row">
 				<div class="col-lg-12">
-					<div class="panel panel-default">
-						<div class="panel-heading">用户列表</div>
-						<!-- /.panel-heading -->
+					<div class="panel panel-primary">
+						<div class="panel-heading">行程列表</div>
 						<div class="panel-body">
 							<table width="100%"
 								class="table table-striped table-bordered table-hover"
-								id="user-table">
+								id="trip-table">
 								<thead>
 									<tr>
+										<th></th>
 										<th>ID</th>
-										<th>用户名</th>
-										<th>手机号</th>
-										<th>地址</th>
-										<th>微信</th>
-										<th>等级</th>
+										<th>行程名</th>
+										<th>目的地</th>
+										<th>出发日期</th>
+										<th>结束日期</th>
+										<th>备注</th>
 									</tr>
 								</thead>
 							</table>
-							<!-- /.table-responsive -->
-
 						</div>
-						<!-- /.panel-body -->
 					</div>
-					<!-- /.panel -->
 				</div>
-				<!-- /.col-lg-12 -->
 			</div>
-
 		</div>
-		<!-- /#page-wrapper -->
 	</div>
-	<!-- /#page-wrapper -->
-
+	<!-- 添加行程 -->
+	<div class="modal fade" data-backdrop="static" id="addTripModal"
+		tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+		aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal"
+						aria-hidden="true">&times;</button>
+					<h4 class="modal-title" id="myModalLabel">添加行程</h4>
+				</div>
+				<div class="modal-body">
+					<form role="form" id="addTripForm">
+						<div class="form-group">
+							<label>行程名</label> <input type="text" class="form-control"
+								name="name">
+							<p class="help-block">这里填写行程名称</p>
+						</div>
+						<div class="form-group">
+							<label>目的地</label> <input type="text" class="form-control"
+								name="destination">
+							<p class="help-block">这里填写目的地</p>
+						</div>
+						<div class="form-group">
+							<label>出发日期</label> <input type="date" class="form-control"
+								name="start">
+							<p class="help-block">这里填写出发日期</p>
+						</div>
+						<div class="form-group">
+							<label>结束日期</label> <input type="date" class="form-control"
+								name="end">
+							<p class="help-block">这里填写结束日期</p>
+						</div>
+						<div class="form-group">
+							<label>备注</label>
+							<textarea class="form-control" rows="3" name="comment"></textarea>
+							<p class="help-block">这里填写备注</p>
+						</div>
+					</form>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+					<button type="button" class="btn btn-primary" id="addTripBtn">保存</button>
+				</div>
+			</div>
+		</div>
 	</div>
-	<!-- /#wrapper -->
 
-
-
+	<!-- 修改行程 -->
+	<div class="modal fade" data-backdrop="static" id="editTripModal"
+		tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+		aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal"
+						aria-hidden="true">&times;</button>
+					<h4 class="modal-title" id="myModalLabel">修改行程</h4>
+				</div>
+				<div class="modal-body">
+					<form role="form" id="editTripForm">
+						<div class="form-group">
+							<label>ID</label> <input class="form-control" name="id" readonly>
+							<p class="help-block">此项不可修改</p>
+						</div>
+						<div class="form-group">
+							<label>行程名</label> <input type="text" class="form-control"
+								name="name">
+							<p class="help-block">这里填写行程名称</p>
+						</div>
+						<div class="form-group">
+							<label>目的地</label> <input type="text" class="form-control"
+								name="destination">
+							<p class="help-block">这里填写目的地</p>
+						</div>
+						<div class="form-group">
+							<label>出发日期</label> <input type="text" class="form-control"
+								name="start">
+							<p class="help-block">这里填写出发日期</p>
+						</div>
+						<div class="form-group">
+							<label>结束日期</label> <input type="text" class="form-control"
+								name="end">
+							<p class="help-block">这里填写结束日期</p>
+						</div>
+						<div class="form-group">
+							<label>备注</label>
+							<textarea class="form-control" rows="3" name="comment"></textarea>
+							<p class="help-block">这里填写备注</p>
+						</div>
+					</form>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+					<button type="button" class="btn btn-primary" id="editTripBtn">保存</button>
+				</div>
+			</div>
+		</div>
+	</div>
 </body>
 </html>

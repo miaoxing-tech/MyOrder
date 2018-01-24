@@ -16,31 +16,31 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.wewe.myorder.common.result.ApiResult;
-import com.wewe.myorder.model.Trip;
-import com.wewe.myorder.request.entity.TripQueryParams;
-import com.wewe.myorder.service.TripService;
+import com.wewe.myorder.model.Note;
+import com.wewe.myorder.request.entity.NoteQueryParams;
+import com.wewe.myorder.service.NoteService;
 
 @Controller
-@RequestMapping("trip")
-public class TripController {
+@RequestMapping("note")
+public class NoteController {
   
-  @Resource TripService tripService;
-  
-  private static Logger logger = LoggerFactory.getLogger(TripController.class);
-  
+  @Resource NoteService noteService;
+
+  private static Logger logger = LoggerFactory.getLogger(StatisticsController.class);
+
   @RequestMapping(value = "/main", method = RequestMethod.GET)
   public ModelAndView main(HttpServletRequest request) {
-      logger.info("REQUEST: " + request.getRequestURL().toString());
-      return new ModelAndView("trip", "data", "");
+    logger.info("REQUEST: " + request.getRequestURL().toString());
+    return new ModelAndView("note", "data", "");
   }
   
   @RequestMapping(value = "/add", method = RequestMethod.POST)
   @ResponseBody
-  public ApiResult add(@ModelAttribute Trip trip,
+  public ApiResult add(@ModelAttribute Note entity,
       HttpServletRequest request) {
     logger.info("REQUEST: " + request.getRequestURL().toString());
     try {
-      tripService.add(trip);
+      noteService.add(entity);
       return ApiResult.succ();
     } catch (Exception e) {
       logger.error("error message = {}" + e.getMessage(), e);
@@ -50,11 +50,11 @@ public class TripController {
   
   @RequestMapping(value = "/edit", method = RequestMethod.POST)
   @ResponseBody
-  public ApiResult edit(@ModelAttribute Trip trip,
+  public ApiResult edit(@ModelAttribute Note entity,
       HttpServletRequest request) {
     logger.info("REQUEST: " + request.getRequestURL().toString());
     try {
-      tripService.edit(trip);
+      noteService.edit(entity);
       return ApiResult.succ();
     } catch (Exception e) {
       logger.error("error message = {}" + e.getMessage(), e);
@@ -64,28 +64,28 @@ public class TripController {
   
   @RequestMapping(value = "/delete", method = RequestMethod.GET)
   @ResponseBody
-  public ApiResult delete(@ModelAttribute Trip trip,
+  public ApiResult delete(@ModelAttribute Note entity,
       HttpServletRequest request) {
     logger.info("REQUEST: " + request.getRequestURL().toString());
     try {
-      tripService.delete(trip);
+      noteService.delete(entity);
       return ApiResult.succ();
     } catch (Exception e) {
       logger.error("error message = {}" + e.getMessage(), e);
       return ApiResult.fail(e.getMessage());
     }
-  } 
-
+  }
+  
   @RequestMapping(value = "/getList", method = RequestMethod.GET)
   @ResponseBody
-  public ApiResult getList(@ModelAttribute TripQueryParams params,
+  public ApiResult getList(@ModelAttribute NoteQueryParams params,
       @RequestParam(value = "pageSize", required = false, defaultValue="20") int pageSize,
       @RequestParam(value = "pageNumber", required = false, defaultValue="0") int pageNumber,
       HttpServletRequest request) {
     logger.info("REQUEST: " + request.getRequestURL().toString());
     try {
-      List<Trip> list = tripService.getList(params, pageSize, pageNumber);
-      int total = tripService.getCount(params, pageSize, pageNumber);
+      List<Note> list = noteService.getList(params, pageSize, pageNumber);
+      int total = noteService.getCount(params, pageSize, pageNumber);
       return ApiResult.buildPagination(0, total, list);
     } catch (Exception e) {
       logger.error("error message = {}" + e.getMessage(), e);
@@ -93,14 +93,14 @@ public class TripController {
     }
   }
 
-  @RequestMapping(value = "/getTrip", method = RequestMethod.GET)
+  @RequestMapping(value = "/getNote", method = RequestMethod.GET)
   @ResponseBody
-  public ApiResult getTrip(@RequestParam(value = "id", required = true) String id,
+  public ApiResult getNote(@RequestParam(value = "id", required = true) int id,
       HttpServletRequest request) {
     logger.info("REQUEST: " + request.getRequestURL().toString());
     try {
-      Trip trip = tripService.getTrip(id);
-      return ApiResult.succ(0, trip);
+      Note note = noteService.getNote(id);
+      return ApiResult.succ(0, note);
     } catch (Exception e) {
       logger.error("error message = {}" + e.getMessage(), e);
       return ApiResult.fail(e.getMessage());
@@ -112,11 +112,12 @@ public class TripController {
   public ApiResult getAll(HttpServletRequest request) {
     logger.info("REQUEST: " + request.getRequestURL().toString());
     try {
-      List<Trip> list = tripService.getAll();
+      List<Note> list = noteService.getAll();
       return ApiResult.succ(list);
     } catch (Exception e) {
       logger.error("error message = {}" + e.getMessage(), e);
       return ApiResult.fail(e.getMessage());
     }
   }
+
 }

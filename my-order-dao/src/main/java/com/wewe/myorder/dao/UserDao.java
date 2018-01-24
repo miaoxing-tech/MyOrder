@@ -25,4 +25,8 @@ public interface UserDao {
     User queryByID(@Param("id") String id);
 
     int countByParams(@Param("params") UserQueryParams params, int pageSize, int pageNumber);
+
+    int delete(@Param("id") String id);
+
+    List<User> queryAll();
 }

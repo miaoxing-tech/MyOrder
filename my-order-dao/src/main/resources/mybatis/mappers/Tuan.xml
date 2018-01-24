@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.wewe.myorder.dao.TuanDao">
+
+<resultMap id="TuanMap" type="com.wewe.myorder.model.Tuan">
+        <result column="ID" property="id"/>
+        <result column="NAME" property="name"/>
+        <result column="PRODUCT" property="product"/>
+        <result column="BRAND" property="brand"/>
+        <result column="COMMENT" property="comment"/>
+        <result column="CREATETIME" property="createTime"/>
+        <result column="PRICE" property="price"/>
+        <result column="UPDATETIME" property="updateTime"/>
+    </resultMap>
+
+    <sql id="TuanField">
+        `ID`,
+        `NAME`,
+        `PRODUCT`,
+        `BRAND`,
+        `COMMENT`,
+        `CREATETIME`,
+        `PRICE`,
+        `UPDATETIME`
+    </sql>
+
+	<insert id="insert" parameterType="com.wewe.myorder.model.Tuan">
+		INSERT INTO `t_tuan`
+		(
+		ID,NAME,PRODUCT,BRAND,COMMENT,CREATETIME,PRICE
+		)
+		VALUES
+		(
+		#{entity.id},#{entity.name},#{entity.product},#{entity.brand},#{entity.comment},#{entity.createTime},#{entity.price}
+		)
+	</insert>
+	
+	<update id="update">
+        UPDATE `t_tuan`
+        SET
+        <if test="entity.name != null">
+            `NAME` = #{entity.name},
+        </if>
+        <if test="entity.product != null">
+            `PRODUCT` = #{entity.product},
+        </if>
+        <if test="entity.brand != null">
+            `BRAND` = #{entity.brand},
+        </if>
+        <if test="entity.comment != null">
+            `COMMENT` = #{entity.comment},
+        </if>
+        <if test="entity.price != null">
+            `PRICE` = #{entity.price},
+        </if>
+        `UPDATETIME` = #{entity.updateTime}
+        WHERE
+        `ID` = #{entity.id}
+    </update>
+	
+	<select id="queryByParams" parameterType="com.wewe.myorder.request.entity.TuanQueryParams" resultMap="TuanMap">
+        SELECT
+        <include refid="TuanField"/>
+        FROM `t_tuan`
+        <where>
+        	1 = 1
+            <if test="params.name != null and params.name != ''">
+                OR `NAME` LIKE CONCAT("%", #{params.name}, "%")
+            </if>
+            <if test="params.product != null and params.product != ''">
+                OR `PDODUCT` LIKE CONCAT("%", #{params.product}, "%")
+            </if>
+            <if test="params.brand != null and params.brand != ''">
+                OR `BRAND` LIKE CONCAT("%", #{params.brand}, "%")
+            </if>
+        </where>
+        order by CREATETIME desc limit #{page.offset},#{page.limit}
+    </select>
+    
+    <select id="countByParams" parameterType="com.wewe.myorder.request.entity.TuanQueryParams" resultType="java.lang.Integer">
+        SELECT
+        count(*)
+        FROM `t_tuan`
+        <where>
+        	1 = 1
+            <if test="params.name != null and params.name != ''">
+                OR `NAME` LIKE CONCAT("%", #{params.name}, "%")
+            </if>
+            <if test="params.product != null and params.product != ''">
+                OR `PDODUCT` LIKE CONCAT("%", #{params.product}, "%")
+            </if>
+            <if test="params.brand != null and params.brand != ''">
+                OR `BRAND` LIKE CONCAT("%", #{params.brand}, "%")
+            </if>
+        </where>
+    </select>
+    
+    <select id="queryByID" parameterType="String" resultMap="TuanMap">
+        SELECT
+        <include refid="TuanField"/>
+        FROM `t_tuan`
+        <where>
+        	`ID` = #{id}
+        </where>
+    </select>
+    
+    <delete id="delete" parameterType="String">
+        DELETE FROM `t_tuan`
+        <where>
+        	`ID` = #{id}
+        </where>
+    </delete>
+    
+    <select id="queryAll" resultMap="TuanMap">
+        SELECT
+        <include refid="TuanField"/>
+        FROM `t_tuan` order by CREATETIME desc
+    </select>
+
+</mapper>

@@ -48,7 +48,7 @@ public class UserController {
     }
   } 
   
-  @RequestMapping(value = "/edit", method = RequestMethod.GET)
+  @RequestMapping(value = "/edit", method = RequestMethod.POST)
   @ResponseBody
   public ApiResult edit(@ModelAttribute User entity,
       HttpServletRequest request) {
@@ -101,6 +101,19 @@ public class UserController {
     try {
       User user = userService.getUser(id);
       return ApiResult.succ(0, user);
+    } catch (Exception e) {
+      logger.error("error message = {}" + e.getMessage(), e);
+      return ApiResult.fail(e.getMessage());
+    }
+  }
+  
+  @RequestMapping(value = "/getAll", method = RequestMethod.GET)
+  @ResponseBody
+  public ApiResult getAll(HttpServletRequest request) {
+    logger.info("REQUEST: " + request.getRequestURL().toString());
+    try {
+      List<User> list = userService.getAll();
+      return ApiResult.succ(list);
     } catch (Exception e) {
       logger.error("error message = {}" + e.getMessage(), e);
       return ApiResult.fail(e.getMessage());

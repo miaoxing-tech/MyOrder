@@ -1,5 +1,7 @@
 package com.wewe.myorder.web.controller;
 
+import java.util.List;
+
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 
@@ -32,7 +34,7 @@ public class SeckillController {
       return new ModelAndView("seckill", "data", "");
   }
   
-  @RequestMapping(value = "/add", method = RequestMethod.GET)
+  @RequestMapping(value = "/add", method = RequestMethod.POST)
   @ResponseBody
   public ApiResult add(@ModelAttribute Seckill entity,
       HttpServletRequest request) {
@@ -46,7 +48,7 @@ public class SeckillController {
     }
   } 
   
-  @RequestMapping(value = "/edit", method = RequestMethod.GET)
+  @RequestMapping(value = "/edit", method = RequestMethod.POST)
   @ResponseBody
   public ApiResult edit(@ModelAttribute Seckill entity,
       HttpServletRequest request) {
@@ -84,8 +86,36 @@ public class SeckillController {
       HttpServletRequest request) {
     logger.info("REQUEST: " + request.getRequestURL().toString());
     try {
-      seckillService.getList(params, pageSize, pageNumber);
-      return ApiResult.succ();
+      List<Seckill> list = seckillService.getList(params, pageSize, pageNumber);
+      int total = seckillService.getCount(params, pageSize, pageNumber);
+      return ApiResult.buildPagination(0, total, list);
+    } catch (Exception e) {
+      logger.error("error message = {}" + e.getMessage(), e);
+      return ApiResult.fail(e.getMessage());
+    }
+  }
+
+  @RequestMapping(value = "/getSeckill", method = RequestMethod.GET)
+  @ResponseBody
+  public ApiResult getSeckill(@RequestParam(value = "id", required = true) String id,
+      HttpServletRequest request) {
+    logger.info("REQUEST: " + request.getRequestURL().toString());
+    try {
+      Seckill seckill = seckillService.getSeckill(id);
+      return ApiResult.succ(0, seckill);
+    } catch (Exception e) {
+      logger.error("error message = {}" + e.getMessage(), e);
+      return ApiResult.fail(e.getMessage());
+    }
+  }
+  
+  @RequestMapping(value = "/getAll", method = RequestMethod.GET)
+  @ResponseBody
+  public ApiResult getAll(HttpServletRequest request) {
+    logger.info("REQUEST: " + request.getRequestURL().toString());
+    try {
+      List<Seckill> list = seckillService.getAll();
+      return ApiResult.succ(list);
     } catch (Exception e) {
       logger.error("error message = {}" + e.getMessage(), e);
       return ApiResult.fail(e.getMessage());

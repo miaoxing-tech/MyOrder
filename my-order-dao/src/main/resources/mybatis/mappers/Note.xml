@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.wewe.myorder.dao.NoteDao">
+
+<resultMap id="NoteMap" type="com.wewe.myorder.model.Note">
+        <result column="ID" property="id"/>
+        <result column="CONTENT" property="content"/>
+        <result column="CREATETIME" property="createTime"/>
+        <result column="UPDATETIME" property="updateTime"/>
+    </resultMap>
+
+    <sql id="NoteField">
+        `ID`,
+        `CONTENT`,
+        `CREATETIME`,
+        `UPDATETIME`
+    </sql>
+
+	<insert id="insert" parameterType="com.wewe.myorder.model.Note">
+		INSERT INTO `t_note`
+		(
+		CONTENT,CREATETIME
+		)
+		VALUES
+		(
+		#{entity.content},#{entity.createTime}
+		)
+	</insert>
+	
+	<update id="update">
+        UPDATE `t_Note`
+        SET
+        <if test="entity.content != null">
+            `CONTENT` = #{entity.content},
+        </if>
+        `UPDATETIME` = #{entity.updateTime}
+        WHERE
+        `ID` = #{entity.id}
+    </update>
+	
+	<select id="queryByParams" parameterType="com.wewe.myorder.request.entity.NoteQueryParams" resultMap="NoteMap">
+        SELECT
+        <include refid="NoteField"/>
+        FROM `t_note`
+        <where>
+        	1 = 1
+            <if test="params.content != null and params.content != ''">
+                AND `CONTENT` LIKE CONCAT("%", #{params.content}, "%")
+            </if>
+        </where>
+        order by CREATETIME desc limit #{page.offset},#{page.limit}
+    </select>
+    
+    <select id="countByParams" parameterType="com.wewe.myorder.request.entity.NoteQueryParams" resultType="java.lang.Integer">
+        SELECT
+        count(*)
+        FROM `t_note`
+        <where>
+        	1 = 1
+            <if test="params.content != null and params.content != ''">
+                AND `CONTENT` LIKE CONCAT("%", #{params.content}, "%")
+            </if>
+        </where>
+    </select>
+    
+    <select id="queryByID" parameterType="java.lang.Integer" resultMap="NoteMap">
+        SELECT
+        <include refid="NoteField"/>
+        FROM `t_note`
+        <where>
+        	`ID` = #{id}
+        </where>
+    </select>
+    
+    <delete id="delete" parameterType="java.lang.Integer">
+        DELETE FROM `t_note`
+        <where>
+        	`ID` = #{id}
+        </where>
+    </delete>
+    
+    <select id="queryAll" resultMap="NoteMap">
+        SELECT
+        <include refid="NoteField"/>
+        FROM `t_note` order by CREATETIME desc
+    </select>
+
+</mapper>
