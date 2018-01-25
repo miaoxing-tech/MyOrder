@@ -29,17 +29,17 @@ public class OrderQueryParams {
   /**
    * 所属行程
    */
-  private Integer tripID;
+  private String tripID;
 
   /**
    * 所属秒杀
    */
-  private Integer seckillID;
+  private String seckillID;
 
   /**
    * 所属团购
    */
-  private Integer tuanID;
+  private String tuanID;
 
   public String getUserID() {
     return userID;
@@ -81,27 +81,27 @@ public class OrderQueryParams {
     this.status = status;
   }
 
-  public Integer getTripID() {
+  public String getTripID() {
     return tripID;
   }
 
-  public void setTripID(Integer tripID) {
+  public void setTripID(String tripID) {
     this.tripID = tripID;
   }
 
-  public Integer getSeckillID() {
+  public String getSeckillID() {
     return seckillID;
   }
 
-  public void setSeckillID(Integer seckillID) {
+  public void setSeckillID(String seckillID) {
     this.seckillID = seckillID;
   }
 
-  public Integer getTuanID() {
+  public String getTuanID() {
     return tuanID;
   }
 
-  public void setTuanID(Integer tuanID) {
+  public void setTuanID(String tuanID) {
     this.tuanID = tuanID;
   }
   

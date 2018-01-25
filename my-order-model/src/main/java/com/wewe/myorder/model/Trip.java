@@ -51,12 +51,14 @@ public class Trip implements Serializable{
    * 创建时间
    */
   @DateTimeFormat(pattern = ConstantContext.DATETIME_PATTERN)
+  @JsonFormat(pattern = ConstantContext.DATETIME_PATTERN, timezone = ConstantContext.TIMEZONE)
   private Date createTime;
 
   /**
    * 更新时间
    */
   @DateTimeFormat(pattern = ConstantContext.DATETIME_PATTERN)
+  @JsonFormat(pattern = ConstantContext.DATETIME_PATTERN, timezone = ConstantContext.TIMEZONE)
   private Date updateTime;
 
   public String getId() {

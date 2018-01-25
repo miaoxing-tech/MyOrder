@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.alibaba.druid.support.json.JSONUtils;
 import com.wewe.myorder.common.result.ApiResult;
 import com.wewe.myorder.model.Trip;
 import com.wewe.myorder.request.entity.TripQueryParams;
@@ -118,13 +119,5 @@ public class TripController {
       logger.error("error message = {}" + e.getMessage(), e);
       return ApiResult.fail(e.getMessage());
     }
-  }
-  
-  @RequestMapping(value = "/detail", method = RequestMethod.GET)
-  public ModelAndView main(@RequestParam(value = "id", required = true) String id,
-      HttpServletRequest request) {
-      logger.info("REQUEST: " + request.getRequestURL().toString());
-      Trip trip = tripService.getTrip(id);
-      return new ModelAndView("trip_detail", "data", trip);
   }
 }

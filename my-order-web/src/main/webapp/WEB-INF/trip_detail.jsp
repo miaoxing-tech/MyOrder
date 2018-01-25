@@ -5,6 +5,9 @@
 <head>
 
 <%@ include file="common/header.jsp"%>
+<script type="text/javascript">
+var tripStr = '${data}';
+var trip = $.parseJSON(tripStr);</script>
 
 <script src="<%=request.getContextPath()%>/resources/js/trip_detail.js"></script>
 
@@ -18,6 +21,11 @@
 
 		<div id="page-wrapper">
 			<div class="row" style="padding-top: 15px; padding-bottom: 15px">
+				<div class="col-lg-12" id="tripInfo">
+					
+				</div>
+			</div>
+			<div class="row" style="padding-bottom: 15px">
 				<div class="col-lg-12">
 					<button type="button" class="btn btn-success btn-default"
 						data-toggle="modal" data-target="#addOrderModal" id="showAddBtn">添加订单</button>

@@ -16,17 +16,21 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.wewe.myorder.common.result.ApiResult;
+import com.wewe.myorder.common.utils.JsonUtil;
 import com.wewe.myorder.model.Order;
+import com.wewe.myorder.model.Trip;
 import com.wewe.myorder.request.entity.OrderQueryParams;
 import com.wewe.myorder.response.entity.OrderResponse;
 import com.wewe.myorder.service.OrderService;
+import com.wewe.myorder.service.TripService;
 
 @Controller
 @RequestMapping("order")
 public class OrderController {
   
   @Resource OrderService orderService;
-
+  @Resource TripService tripService;
+  
   private static Logger logger = LoggerFactory.getLogger(OrderController.class);
   
   @RequestMapping(value = "/main", method = RequestMethod.GET)
@@ -92,6 +96,14 @@ public class OrderController {
       logger.error("error message = {}" + e.getMessage(), e);
       return ApiResult.fail(e.getMessage());
     }
+  }
+  
+  @RequestMapping(value = "/trip", method = RequestMethod.GET)
+  public ModelAndView main(@RequestParam(value = "id", required = true) String id,
+      HttpServletRequest request) {
+      logger.info("REQUEST: " + request.getRequestURL().toString());
+      Trip trip = tripService.getTrip(id);
+      return new ModelAndView("trip_detail", "data", JsonUtil.encodeQuietly(trip));
   }
 
 }

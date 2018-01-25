@@ -1,6 +1,5 @@
-var tripStr = '${data}';
-var trip = $.parseJSON(tripStr);
 $(document).ready(function() {
+	$('#tripInfo').html("<h3 class='page-header'>行程名称： "+trip.name+" 行程目的地： "+trip.destination+" 出发时间： "+trip.start+"</h1>");
 	$('#order-table').DataTable({
 		"language": CONSTANT.DATA_TABLES.DEFAULT_OPTION.LANGUAGE,
 		"lengthMenu": CONSTANT.DATA_TABLES.DEFAULT_OPTION.LENGTH_MENU,
