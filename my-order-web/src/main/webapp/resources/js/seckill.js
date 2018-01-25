@@ -5,10 +5,28 @@ $(document).ready(function() {
 		"stateSave": CONSTANT.DATA_TABLES.DEFAULT_OPTION.STATE_SAVE,
 		"serverSide": CONSTANT.DATA_TABLES.DEFAULT_OPTION.SERVER_SIDE,
 		"searching": CONSTANT.DATA_TABLES.DEFAULT_OPTION.SEARCHING,
-		"columnDefs": CONSTANT.DATA_TABLES.COLUMN.CHECKBOX,
 		"pageLength": CONSTANT.DATA_TABLES.DEFAULT_OPTION.PAGE_LENGTH,
 		"lengthChange": CONSTANT.DATA_TABLES.DEFAULT_OPTION.LENGTH_CHANGE, 
 		"select" : CONSTANT.DATA_TABLES.DEFAULT_OPTION.SELECT,
+		"columns": [{"data":null},
+		            {"data":"id"},
+		            {"data":"name"},
+		            {"data":"start"},
+		            {"data":"end"},
+		            {"data":"comment"},
+		            {"data":null}],
+		"columnDefs": [{
+        	targets: 0,
+            render: function(data, type, row, meta) {
+                return '<input type="checkbox" name="checklist" value="' + meta.row + '" />'
+            }},{
+            targets: 1,
+            visible: false
+            },{
+        	targets: 6,
+            render: function(data, type, row, meta) {
+                return '<a hfer="<%= request.getContextPath() %>/seckill/detail?seckillID="'+data.id+'>进入</a>'
+            }}],		
 		"ajax" : { //ajax方式向后台发送请求
 			"type" : "GET",
 			"url" : "getList",
@@ -22,23 +40,10 @@ $(document).ready(function() {
 				if (res.status != 0) {
 					return {};
 				}
-
-				var addResult = function (result, data) {
-					var array = [0, data.id, data.name, data.start, data.end, data.comment];
-					result.push(array);
-					return result;
-				};
-
-				var result = [];
-				for (var i = 0, ien = res.data.list.length; i < ien; i++) {
-					result = addResult(result, res.data.list[i]);
-				}
-				return result;
+				return res.data.list;
 			},
 			"dataType" : "json",
-			"order": [
-			          [1, "asc"]
-			          ]
+			"order": [[1, "asc"]]
 		}
 	});
 	$("#showEditBtn").click(function(){
@@ -48,13 +53,7 @@ $(document).ready(function() {
 		else {
 			var index = checkedData[0].value;
 			var data = $('#seckill-table').dataTable().fnGetData(index);
-			var info = {};
-			info["id"] = data[1];
-			info["name"] = data[2];
-			info["start"] = data[4];
-			info["end"] = data[5];
-			info["comment"] = data[6];
-			fillForm('#editSeckillForm', info);
+			fillForm('#editSeckillForm', data);
 		}
 	})
 	$("#addSeckillBtn").click(function(){
@@ -77,9 +76,7 @@ $(document).ready(function() {
 		else {
 			var index = checkedData[0].value;
 			var data = $('#seckill-table').dataTable().fnGetData(index);
-			var info = {};
-			info["id"] = data[1];
-			ajaxFunc("get","json", true, CONSTANT.URL_ROOT + "seckill/delete", info, deleteCallBack)
+			ajaxFunc("get","json", true, CONSTANT.URL_ROOT + "seckill/delete", data, deleteCallBack)
 		}
 	})
 });

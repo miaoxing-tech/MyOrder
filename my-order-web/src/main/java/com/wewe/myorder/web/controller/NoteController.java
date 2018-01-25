@@ -80,7 +80,7 @@ public class NoteController {
   @ResponseBody
   public ApiResult getList(@ModelAttribute NoteQueryParams params,
       @RequestParam(value = "pageSize", required = false, defaultValue="20") int pageSize,
-      @RequestParam(value = "pageNumber", required = false, defaultValue="0") int pageNumber,
+      @RequestParam(value = "pageNumber", required = false, defaultValue="1") int pageNumber,
       HttpServletRequest request) {
     logger.info("REQUEST: " + request.getRequestURL().toString());
     try {

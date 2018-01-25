@@ -119,4 +119,12 @@ public class TripController {
       return ApiResult.fail(e.getMessage());
     }
   }
+  
+  @RequestMapping(value = "/detail", method = RequestMethod.GET)
+  public ModelAndView main(@RequestParam(value = "id", required = true) String id,
+      HttpServletRequest request) {
+      logger.info("REQUEST: " + request.getRequestURL().toString());
+      Trip trip = tripService.getTrip(id);
+      return new ModelAndView("trip_detail", "data", trip);
+  }
 }

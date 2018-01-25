@@ -46,6 +46,7 @@
 										<th>开始时间</th>
 										<th>结束时间</th>
 										<th>备注</th>
+										<th>操作</th>
 									</tr>
 								</thead>
 							</table>

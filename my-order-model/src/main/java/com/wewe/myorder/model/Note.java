@@ -25,7 +25,7 @@ public class Note implements Serializable {
    * 创建时间
    */
   @DateTimeFormat(pattern = ConstantContext.DATETIME_PATTERN)
-  @JsonFormat(pattern = ConstantContext.DATETIME_PATTERN, timezone = ConstantContext.TIMEZONE)
+  @JsonFormat(pattern = ConstantContext.DATE_PATTERN, timezone = ConstantContext.TIMEZONE)
   private Date createTime;
 
   /**

@@ -1,3 +1,5 @@
+var tripStr = '${data}';
+var trip = $.parseJSON(tripStr);
 $(document).ready(function() {
 	$('#order-table').DataTable({
 		"language": CONSTANT.DATA_TABLES.DEFAULT_OPTION.LANGUAGE,
@@ -28,6 +30,7 @@ $(document).ready(function() {
 				params["product"] = searchValue;
 				params["brand"] = searchValue;
 				params["comment"] = searchValue;
+				params["tripID"] = trip.id;
 				return params;
 			},//传递的数据
 			"dataSrc": function (res) {

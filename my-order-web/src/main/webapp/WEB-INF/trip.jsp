@@ -47,6 +47,7 @@
 										<th>出发日期</th>
 										<th>结束日期</th>
 										<th>备注</th>
+										<th>操作</th>
 									</tr>
 								</thead>
 							</table>

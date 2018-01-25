@@ -6,7 +6,7 @@
 
 <%@ include file="common/header.jsp"%>
 
-<script src="<%=request.getContextPath()%>/resources/js/order.js"></script>
+<script src="<%=request.getContextPath()%>/resources/js/trip_detail.js"></script>
 
 </head>
 

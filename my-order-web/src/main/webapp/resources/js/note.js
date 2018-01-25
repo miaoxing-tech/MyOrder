@@ -1,5 +1,5 @@
 $(document).ready(function() {
-	$('#tuan-table').DataTable({
+	$('#note-table').DataTable({
 		"language": CONSTANT.DATA_TABLES.DEFAULT_OPTION.LANGUAGE,
 		"lengthMenu": CONSTANT.DATA_TABLES.DEFAULT_OPTION.LENGTH_MENU,
 		"stateSave": CONSTANT.DATA_TABLES.DEFAULT_OPTION.STATE_SAVE,
@@ -10,35 +10,18 @@ $(document).ready(function() {
 		"select" : CONSTANT.DATA_TABLES.DEFAULT_OPTION.SELECT,
 		"columns": [{"data":null},
 		            {"data":"id"},
-		            {"data":"name"},
-		            {"data":"product"},
-		            {"data":"brand"},
-		            {"data":"price"},
-		            {"data":"comment"},
-		            {"data":null}],
-		"columnDefs": [{
-        	targets: 0,
-            render: function(data, type, row, meta) {
-                return '<input type="checkbox" name="checklist" value="' + meta.row + '" />'
-            }},{
-            targets: 1,
-            visible: false
-            },{
-        	targets: 7,
-            render: function(data, type, row, meta) {
-                return '<a hfer="<%= request.getContextPath() %>/tuan/detail?tuanID="'+data.id+'>进入</a>'
-            }}],
+		            {"data":"content"},
+		            {"data":"createTime"}],
+		"columnDefs": CONSTANT.DATA_TABLES.COLUMN.CHECKBOX,
 		"ajax" : { //ajax方式向后台发送请求
 			"type" : "GET",
 			"url" : "getList",
 			"data" : function (data) {
 				var params = {};
 				var searchValue = $("#searchIn").val().trim();
-				params["name"] = searchValue;
-				params["product"] = searchValue;
-				params["brand"] = searchValue;
+				params["content"] = searchValue;
 				return params;
-			},
+			},//传递的数据
 			"dataSrc": function (res) {
 				if (res.status != 0) {
 					return {};
@@ -52,21 +35,21 @@ $(document).ready(function() {
 	$("#showEditBtn").click(function(){
 		var checkedData = $("input:checkbox[name='checklist']:checked");
 		if (checkedData.length == 0)
-			alert("请选择团购！");
+			alert("请选择备忘录！");
 		else {
 			var index = checkedData[0].value;
-			var data = $('#tuan-table').dataTable().fnGetData(index);
-			fillForm('#editTuanForm', data);
+			var data = $('#note-table').dataTable().fnGetData(index);
+			fillForm('#editNoteForm', data);
 		}
 	})
-	$("#addTuanBtn").click(function(){
-		submitData('addTuanForm','tuan/add',addCallBack);
+	$("#addNoteBtn").click(function(){
+		submitData('addNoteForm','note/add',addCallBack);
 	})
-	$("#editTuanBtn").click(function(){
-		submitData('editTuanForm','tuan/edit',editCallBack);
+	$("#editNoteBtn").click(function(){
+		submitData('editNoteForm','note/edit',editCallBack);
 	})
 	$('#searchIn').bind('input propertychange', function() {  
-		refreshTable('tuan-table');
+		refreshTable('note-table');
 	});  
 	$("input:checkbox[name='checklist']").click(function(){
 		$(this).attr("checked",true);//设置当前选中checkbox的状态为checked
@@ -75,26 +58,26 @@ $(document).ready(function() {
 	$("#deleteBtn").click(function(){
 		var checkedData = $("input:checkbox[name='checklist']:checked");
 		if (checkedData.length == 0)
-			alert("请选择团购！");
+			alert("请选择备忘录！");
 		else {
 			var index = checkedData[0].value;
-			var data = $('#tuan-table').dataTable().fnGetData(index);
-			ajaxFunc("get","json", true, CONSTANT.URL_ROOT + "tuan/delete", data, deleteCallBack)
+			var data = $('#note-table').dataTable().fnGetData(index);
+			ajaxFunc("get","json", true, CONSTANT.URL_ROOT + "note/delete", data, deleteCallBack)
 		}
 	})
 });
 
 function addCallBack(msg,t_dom) {
 	alert(msg.message);
-	closeWin('addTuanModal', '#addTuanForm');
-	refreshTable('tuan-table');
+	closeWin('addNoteModal', '#addNoteForm');
+	refreshTable('note-table');
 }
 function editCallBack(msg,t_dom) {
 	alert(msg.message);
-	closeWin('editTuanModal', '#editTuanForm');
-	refreshTable('tuan-table');
+	closeWin('editNoteModal', '#editNoteForm');
+	refreshTable('note-table');
 }
 function deleteCallBack(msg,t_dom) {
 	alert(msg.message);
-	refreshTable('tuan-table');
+	refreshTable('note-table');
 }

@@ -47,6 +47,7 @@
 										<th>品牌</th>
 										<th>单价</th>
 										<th>备注</th>
+										<th>操作</th>
 									</tr>
 								</thead>
 							</table>
