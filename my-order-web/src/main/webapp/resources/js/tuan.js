@@ -26,7 +26,7 @@ $(document).ready(function() {
             },{
         	targets: 7,
             render: function(data, type, row, meta) {
-                return '<a hfer="<%= request.getContextPath() %>/tuan/detail?tuanID="'+data.id+'>进入</a>'
+                return "<a href='"+CONSTANT.URL_ROOT+"order/tuan?id="+data.id+"'>进入</a>";
             }}],
 		"ajax" : { //ajax方式向后台发送请求
 			"type" : "GET",

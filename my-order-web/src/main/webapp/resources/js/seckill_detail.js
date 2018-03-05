@@ -1,5 +1,5 @@
 $(document).ready(function() {
-	$('#tripInfo').html("<h3 class='page-header'>行程名称： <u>"+trip.name+"</u> 行程目的地： <u>"+trip.destination+"</u> 出发时间： <u>"+trip.start+"</u></h1>");
+	$('#seckillInfo').html("<h3 class='page-header'>秒杀名称： <u>"+seckill.name+"</u></h1>");
 	$('#order-table').DataTable({
 		"language": CONSTANT.DATA_TABLES.DEFAULT_OPTION.LANGUAGE,
 		"lengthMenu": CONSTANT.DATA_TABLES.DEFAULT_OPTION.LENGTH_MENU,
@@ -29,7 +29,7 @@ $(document).ready(function() {
 				params["product"] = searchValue;
 				params["brand"] = searchValue;
 				params["comment"] = searchValue;
-				params["tripID"] = trip.id;
+				params["seckillID"] = seckill.id;
 				return params;
 			},//传递的数据
 			"dataSrc": function (res) {

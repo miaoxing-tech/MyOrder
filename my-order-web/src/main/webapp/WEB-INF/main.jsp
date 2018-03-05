@@ -115,15 +115,17 @@
 			<div class="row">
 				<div class="col-lg-8">
 					<div class="panel panel-default">
-						<div class="panel-heading">
-							<i class="fa fa-bar-chart-o fa-fw"></i> 最近半年收益
-						</div>
-						<div class="panel-body">
-							<div id="morris-area-chart"></div>
-						</div>
-					</div>
-
+                        <div class="panel-heading">
+                            <i class="fa fa-bar-chart-o fa-fw"></i> 最近半年收益
+                        </div>
+                        <div class="panel-body">
+                            <div class="flot-chart">
+                                <div class="flot-chart-content" id="flot-bar-chart"></div>
+                            </div>
+                        </div>
+                    </div>
 				</div>
+				
 				<div class="col-lg-4">
 					<div class="panel panel-default">
 						<div class="panel-heading">

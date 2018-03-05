@@ -18,11 +18,15 @@ import org.springframework.web.servlet.ModelAndView;
 import com.wewe.myorder.common.result.ApiResult;
 import com.wewe.myorder.common.utils.JsonUtil;
 import com.wewe.myorder.model.Order;
+import com.wewe.myorder.model.Seckill;
 import com.wewe.myorder.model.Trip;
+import com.wewe.myorder.model.Tuan;
 import com.wewe.myorder.request.entity.OrderQueryParams;
 import com.wewe.myorder.response.entity.OrderResponse;
 import com.wewe.myorder.service.OrderService;
+import com.wewe.myorder.service.SeckillService;
 import com.wewe.myorder.service.TripService;
+import com.wewe.myorder.service.TuanService;
 
 @Controller
 @RequestMapping("order")
@@ -30,6 +34,8 @@ public class OrderController {
   
   @Resource OrderService orderService;
   @Resource TripService tripService;
+  @Resource TuanService tuanService;
+  @Resource SeckillService seckillService;
   
   private static Logger logger = LoggerFactory.getLogger(OrderController.class);
   
@@ -99,11 +105,28 @@ public class OrderController {
   }
   
   @RequestMapping(value = "/trip", method = RequestMethod.GET)
-  public ModelAndView main(@RequestParam(value = "id", required = true) String id,
+  public ModelAndView trip(@RequestParam(value = "id", required = true) String id,
       HttpServletRequest request) {
       logger.info("REQUEST: " + request.getRequestURL().toString());
       Trip trip = tripService.getTrip(id);
       return new ModelAndView("trip_detail", "data", JsonUtil.encodeQuietly(trip));
   }
+  
+  @RequestMapping(value = "/tuan", method = RequestMethod.GET)
+  public ModelAndView tuan(@RequestParam(value = "id", required = true) String id,
+      HttpServletRequest request) {
+      logger.info("REQUEST: " + request.getRequestURL().toString());
+      Tuan tuan = tuanService.getTuan(id);
+      return new ModelAndView("tuan_detail", "data", JsonUtil.encodeQuietly(tuan));
+  }
+
+  @RequestMapping(value = "/seckill", method = RequestMethod.GET)
+  public ModelAndView seckill(@RequestParam(value = "id", required = true) String id,
+      HttpServletRequest request) {
+      logger.info("REQUEST: " + request.getRequestURL().toString());
+      Seckill seckill = seckillService.getSeckill(id);
+      return new ModelAndView("seckill_detail", "data", JsonUtil.encodeQuietly(seckill));
+  }
+
 
 }

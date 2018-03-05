@@ -25,7 +25,7 @@ $(document).ready(function() {
             },{
         	targets: 6,
             render: function(data, type, row, meta) {
-                return '<a hfer="<%= request.getContextPath() %>/seckill/detail?seckillID="'+data.id+'>进入</a>'
+                return "<a href='"+CONSTANT.URL_ROOT+"order/seckill?id="+data.id+"'>进入</a>";
             }}],		
 		"ajax" : { //ajax方式向后台发送请求
 			"type" : "GET",
